@@ -172,7 +172,7 @@ export default function DigitalOwnerForm() {
         await emailForm({ pdfBlob, pdfName, formData })
         return window.location.reload()
     }
-
+ 
     return (
         <IntakeSection id="digital-intake">
             <IntakeHeader id='intake-header'>
