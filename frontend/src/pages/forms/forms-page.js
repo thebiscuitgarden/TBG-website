@@ -23,11 +23,11 @@ export default function Forms(){
             <FormPageInfoSection>
                 <FormPageRedBox>
                     <p> 
-                        We require all owners to fill out a new client form to insure that we have your contact information and all of your pets information. 
+                        We require all owners to fill out a new owner form to insure that we have your contact information and all of your pets information. 
                     </p>
                 </FormPageRedBox>
                 <FormPageBtn onClick={() => navigate('/forms/new-owner')}> 
-                    Click HERE to fill out the New Client Form
+                    Click HERE to fill out the New Owner Form
                 </FormPageBtn>
 
                 <CommonH2 style={{marginBottom: '40px'}}> 
