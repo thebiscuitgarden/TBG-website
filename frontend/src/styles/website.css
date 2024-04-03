@@ -1,0 +1,66 @@
+/* 
+  all font georgia 
+    Titles/Header Bold
+    Header: all caps
+    Titles: see if BAY + Natalie like all caps 
+
+  ALL pages have an expanded different photo - same like header below the nav bar
+      Make long text boxes shorter (less width)
+
+  Make CLEAN design (mostly like Green Beagle Lodge)
+*/
+
+h1 {
+  font-size: 6rem;
+}
+
+button {
+  font-size: 1.8rem;
+}
+
+h2 {
+  font-size: 4rem;
+}
+
+h3{
+  font-size: 3rem;
+}
+
+h4{
+  font-size: 2.8rem;
+}
+
+h5{
+  font-size: 2.2rem;
+}
+
+h6{
+  font-size: 2rem;
+}
+
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6 {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+p,
+a {
+  font-size: 2.2rem;
+}
+
+.copyright p {
+  font-size: 1.2rem;
+}
+
+.slideshowDot.active{
+  background-color: #ad0005;
+}
+
+.btn-info{
+  opacity: 0;
+}
