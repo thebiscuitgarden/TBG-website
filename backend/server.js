@@ -47,7 +47,7 @@ app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
     const data = {
         from: {
             email: sender,
-            name: 'Mailtrap Tests'
+            name: 'TBG Website'
         },
         to: [{
             email: recipient
