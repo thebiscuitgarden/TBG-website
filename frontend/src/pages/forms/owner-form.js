@@ -224,7 +224,7 @@ export default function DigitalOwnerForm() {
                                 </ErrorText>
                         <ErrorText> 
                             If the problem perissts, kindly reach out to us directly at (919) 355 - 2820 or {''}
-                            <ErrorLink className="e-address" href="mailto:thebiscuitgarden@gmail.com">thebiscuitgarden@gmail.com</ErrorLink>.
+                            <ErrorLink className="e-address" href="mailto:thebiscuitgarden@gmail.com" target="_blank" rel="noreferrer">thebiscuitgarden@gmail.com</ErrorLink>.
                         </ErrorText>
                     </div>
                 )}
@@ -279,7 +279,7 @@ export default function DigitalOwnerForm() {
 
                 <CommonP style={{margin: '0 0 50px'}}>
                     Once completed, you can either email it to us at {''}
-                        <UnderlineLink href="thebiscuitgarden@gmail.com">
+                        <UnderlineLink href="mailto:thebiscuitgarden@gmail.com" target="_blank" rel="noreferrer">
                             thebiscuitgarden@gmail.com
                         </UnderlineLink> 
                     {''} or you can bring it in.
