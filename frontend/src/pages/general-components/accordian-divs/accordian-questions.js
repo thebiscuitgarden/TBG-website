@@ -21,7 +21,7 @@ export default function AccordianTitles({title, info}){
 
                 splitAns.map((word, wordIndex) => {
                     if(word.includes('.com')){
-                        link = <UnderlineLink href={`mailto:${word}`}>{word}</UnderlineLink>
+                        link = <UnderlineLink href={`mailto:${word}`} target="_blank" rel="noreferrer">{word}</UnderlineLink>
                         linkIndex = wordIndex
                         return (link, linkIndex)
                     }
