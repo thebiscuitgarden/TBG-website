@@ -2,7 +2,8 @@ const express = require('express')
 const dotenv = require('dotenv')
 const cors = require('cors');
 const axios = require('axios');
-const multer  = require('multer')
+const multer  = require('multer');
+const { logData } = require('../frontend/src/loggerFunc');
 
 dotenv.config()
 
@@ -41,6 +42,9 @@ app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
     //To get formData information
     formData = JSON.parse(formData)
 
+    logData('PDF NAME', pdfName)
+    logData('FORM DATA', formData)
+
     let base64pdf = req.file.buffer.toString('base64')
 
     //For email service:
@@ -58,7 +62,6 @@ app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
                 'first_name': `${formData.owner1_first_name}`,
                 'last_name': `${formData.owner1_last_name}`    
             },
-            'pdf': req.file
         },
         attachments: [
             {
@@ -67,6 +70,14 @@ app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
                 type: req.file.mimetype
             }]
     }
+
+    let log_email_data = {...data}
+    // If base64 is large, then cut for ease of logging data
+    log_email_data['attachments'][0]['content'].length > 500 ? 
+        log_email_data['attachments'][0]['content'].slice(0, 501) 
+        : log_email_data['attachments'][0]['content']
+
+    logData('SENT DATA TO EMAIL PROVIDER - CROPPED ATTACHMENT CONTENT', log_email_data)
 
     //Call for email api to send form:
     return await axios.post(`${endpoint}/api/send`, data, {
@@ -77,14 +88,16 @@ app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
         }
     })
         .then(() => {
+            logData('EMAIL SUCCESSFUL', '')
             return res.status(200).json({
                 message: `Owner form emailed successfully`
             })
         })
         .catch(err =>{
+            logData('EMAIL PROVIDER ERROR:', err)
             return res.status(500).json({
                 message: `API - error in sending owner form through email`,
-                error: err.response.data
+                error: err
             })
         })
 })
