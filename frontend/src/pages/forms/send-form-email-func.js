@@ -1,4 +1,5 @@
 import axios from "axios"
+import { logData } from "../../loggerFunc"
 
 
 export default async function emailForm(props){
@@ -24,7 +25,6 @@ export default async function emailForm(props){
         sendForm.append(key, JSON.stringify(emailData[key]))
     })
     
-    
     try{
         //Sending form data to BE to send to email service:
         await axios.post(
@@ -37,14 +37,14 @@ export default async function emailForm(props){
             }
         )
         .then(response => {
-            console.log(`Axios Response:`, response)
+            return logData('EMAIL RESPONSE FROM BE', response)
         })
         .catch(err => {
-            console.log(`Axios Error:`, err)
+            return logData('EMAIL ERROR FROM BE', err)
         })
     }
     catch(err){
-        console.log(`Axios - There was an error:`, err)
+        return logData('TRY CATCH ERROR', err)
     }
     
 }
