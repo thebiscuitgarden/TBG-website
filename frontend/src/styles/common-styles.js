@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { bright_red } from "./constants/colors";
+import { devicesWidth } from "./constants/device-size";
+
+const { mobileM, mobileS, mobileXL } = devicesWidth
 
 export const BoldP= styled.p`
     font-weight: bold;
@@ -15,6 +18,10 @@ export const Break10pxDiv = styled.div`
 export const CollageImg = styled.img`
 width: 100%;
 padding: 5% 17.5%;
+
+@media ${mobileXL}{
+    padding: 5%;
+}
 `
 
 export const UnderlineLink = styled.a`
@@ -32,6 +39,19 @@ text-transform: none;
 width: 100%;
 text-align: center;
 margin: 10px 0;
+
+@media ${mobileXL}{
+    font-size: 2rem;
+    margin: 5px;
+}
+
+@media ${mobileM}{
+    font-size: 1.65rem;
+}
+
+@media ${mobileS}{
+    font-size: 1.5rem;
+}
 `
 
 export const RedBoxWithShadow = styled.div`
@@ -52,4 +72,8 @@ margin-top: 30px;
 width: 80%;
 box-shadow: 0 0 20px 1px black;
 background: ${bright_red};
+
+@media ${mobileXL}{
+    width: 95%;
+}
 `

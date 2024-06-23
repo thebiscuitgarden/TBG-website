@@ -1,20 +1,55 @@
 import styled from "styled-components";
+import { devicesWidth } from "./constants/device-size";
+
+const { mobileL, mobileS, mobileXL } = devicesWidth
 
 export const CommonH1 = styled.h1`
 width: 100%;
 text-align: center;
+
+@media ${mobileXL}{
+    font-size: 4rem;
+}
+
+@media ${mobileL}{
+    font-size: 3rem;
+}
+
+@media ${mobileS}{
+    font-size: 2rem;
+}
 `
 
 export const CommonH2 = styled.h2`
 width: 100%;
 text-align: center;
-margin-top: 40px
+margin-top: 40px;
+
+@media ${mobileXL}{
+    font-size: 4rem;
+}
+
+@media ${mobileL}{
+    font-size: 3rem;
+}
+
+@media ${mobileS}{
+    font-size: 2.5rem;
+}
 `
 
 export const CommonH3 = styled.h3`
 text-align: center;
 width: 100%;
 font-size: 3rem;
+
+@media ${mobileXL}{
+    font-size: 3rem;
+}
+
+@media ${mobileS}{
+    font-size: 2.5rem;
+}
 ` 
 
 export const CommonH4 = styled.h4`
@@ -27,7 +62,10 @@ padding: 2.5% 12.5% 0%;
 display: flex;
 flex-wrap: wrap;
 justify-content: center;
-// border: 1px solid purple;
+
+@media ${mobileXL}{
+    padding: 2.5% 5% 0%;
+}
 `
 
 //Information Sections:
@@ -37,7 +75,10 @@ display: flex;
 flex-wrap: wrap;
 justify-content: center;
 margin: 40px 43px;
-// border: 1px solid blue;
+
+@media ${mobileXL}{
+    margin: 20px 0;
+}
 `
 
 //What we value section:
@@ -86,6 +127,10 @@ display: inherit;
 flex-wrap: wrap;
 align-items: center;
 width: 70%;
+
+@media ${mobileXL}{
+    width: 100%;
+}
 `
 
 export const HeaderSection = styled.div`
@@ -150,6 +195,10 @@ margin: 50px 0;
 export const RequirementH2 = styled(CommonH3)`
 width: 50%;
 margin-top: 20px;
+
+@media ${mobileXL}{
+    width: 100%;
+}
 `
 
 export const RequirementH3 = styled.h3`

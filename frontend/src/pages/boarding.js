@@ -90,7 +90,10 @@ export default function Boarding(){
                             Additional Cat(s) ..........$15/night
                         </CommonP>
                         <CommonP>
-                            Pocket Pets (Bunnies, Birds, Reptiles, etc.) ..........$20/night
+                            Pocket Pets ..........$20/night
+                            <CommonP> 
+                                (Bunnies, Birds, Reptiles, etc.) 
+                            </CommonP>
                         </CommonP>
                     </PricesSection>
 
