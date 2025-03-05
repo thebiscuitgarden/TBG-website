@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { bright_red } from "./constants/colors";
 import { devicesWidth } from "./constants/device-size";
 
-const { mobileM, mobileS, mobileXL } = devicesWidth
+const { mobileM, mobileS, mobileXL, tablet } = devicesWidth
 
 export const BoldP= styled.p`
     font-weight: bold;
@@ -19,7 +19,7 @@ export const CollageImg = styled.img`
 width: 100%;
 padding: 5% 17.5%;
 
-@media ${mobileXL}{
+@media ${tablet}{
     padding: 5%;
 }
 `

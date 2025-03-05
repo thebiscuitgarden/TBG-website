@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import { devicesWidth } from "./constants/device-size";
 
-const { mobileL, mobileS, mobileXL } = devicesWidth
+const { mobileL, mobileS, mobileXL, tablet, tabletXL } = devicesWidth
 
 export const CommonH1 = styled.h1`
 width: 100%;
 text-align: center;
+
+@media ${tablet}{
+    font-size: 4.5rem;
+}
 
 @media ${mobileXL}{
     font-size: 4rem;
@@ -63,7 +67,7 @@ display: flex;
 flex-wrap: wrap;
 justify-content: center;
 
-@media ${mobileXL}{
+@media ${tabletXL}{
     padding: 2.5% 5% 0%;
 }
 `

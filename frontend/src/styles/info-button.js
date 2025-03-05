@@ -1,12 +1,19 @@
 import styled from "styled-components";
 import { bright_red } from "./constants/colors";
+import { devicesWidth } from "./constants/device-size";
+
+const { mobileM, mobileS, mobileXL, tablet } = devicesWidth
 
 export const InfoBtnDiv = styled.div`
 display: flex;
 justify-content: space-between;
 flex-wrap: wrap;
 width: 100%;
-// border: 5px solid blue;
+
+@media ${mobileXL}{
+  width: 50%;
+  justify-content: center;
+}
 `
 
 export const IndvInfoBtn = styled.button`
@@ -18,20 +25,25 @@ background-color: ${bright_red};
 cursor: pointer;
 border: 1px solid ${bright_red};
 box-shadow: 0 0 20px 1px black;
+
+@media ${mobileXL}{
+  width: 20rem;
+  height: 10rem;
+  box-shadow: none;
+  margin: 2%; 
+}
 `
 
-export const ValuesIndvInfoBtn = styled(IndvInfoBtn)`
-width: 45%;
-height: 30rem;
-margin: 2.5%;
-// border: 1px solid white;
-`
 
 export const BtnTitle = styled.h1`
 width: 100%;
 font-size: 2.4rem;    
 color: white;
 // border: 1px solid black;
+
+@media ${mobileS}{
+  font-size: 2rem;
+}
 `
 
 export const BtnIcon = styled.div`
@@ -84,6 +96,11 @@ ${props => {
     display: 'none'
   }
 }}
+
+@media ${mobileXL}{
+  slideinOpacity: none !important;
+  display: block;
+}
 `
 
 export const InsideBtnDiv = styled.div`
@@ -137,4 +154,8 @@ ${props => {
     alignContent: 'none',
   }  
 }}
+
+@media ${mobileXL}{
+  slidein: none !important;
+}
 `
