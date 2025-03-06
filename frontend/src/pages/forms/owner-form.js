@@ -158,8 +158,8 @@ export default function DigitalOwnerForm() {
         setLoading(false)
         //clears errors if there were any previously
         setError(null)
+        
         //Makes sure that form PDF is updated
-
         let pdfBlob = await pdf(
             <PdfDoc 
                 formData={formData} 
