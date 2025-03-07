@@ -3,7 +3,8 @@ import { logData } from "../../loggerFunc"
 
 
 export default async function emailForm(props){
-    const { pdfBlob, pdfName, formData } = props
+    const { pdfBlob, pdfName, formData, setError, setProcessing, setFormSent, setSentErr, setBlurBackground } = props
+    let res
 
     let emailData = {
         formData,
@@ -37,14 +38,37 @@ export default async function emailForm(props){
             }
         )
         .then(response => {
-            return logData('EMAIL RESPONSE FROM BE', response)
+            setProcessing(false)
+            setFormSent(true)
+            setError(false)
+            setSentErr(false)
+            setBlurBackground(false)
+            logData('EMAIL RESPONSE FROM BE', response)
+            res = response
+            return true
         })
         .catch(err => {
-            return logData('EMAIL ERROR FROM BE', err)
+            console.log('HERE')
+            setProcessing(false)
+            setFormSent(false)
+            setSentErr(true)
+            setError(true)
+            setBlurBackground(true)
+            logData('EMAIL ERROR FROM BE', err)
+            res = err
+            return err
         })
     }
     catch(err){
-        return logData('TRY CATCH ERROR', err)
+        setProcessing(false)
+        setFormSent(false)
+        setSentErr(true)
+        setError(true)
+        setBlurBackground(true)
+        logData('TRY CATCH ERROR', err)
+        res = err
+        return err
     }
     
+    return res
 }

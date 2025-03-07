@@ -2,11 +2,12 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaw, faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
+import { pdf } from '@react-pdf/renderer';
 
 //Components:
 import AuthPickupSection from "./components/sections/auth/auth-pickup-section.js";
 import EmergencySection from "./components/sections/emergency/emergency-section.js";
+import FormProcessingModal from "./components/form-processing-modal.js";
 import LiabilityWaiver from './components/sections/waiver/liability-waiver.js'
 import OwnerFormTabs from "./components/section-tabs/form-tabs.js";
 import OwnerSection from './components/sections/owner/owner-section.js'
@@ -32,6 +33,7 @@ import { CommonP, UnderlineLink } from "../../styles/common-styles.js";
 import { darkGrey } from "../../styles/constants/colors.js";
 import { Rotate } from "hamburger-react";
 import { styles } from "./components/make-pdf/new-owner-styles.js";
+import DownloadFormPDF from "./components/buttons/download-form-btn.js";
 
 
 export default function DigitalOwnerForm() {
@@ -39,9 +41,13 @@ export default function DigitalOwnerForm() {
     const navigate = useNavigate();
 
     //Form States:
-    const [formData, editFormData] = useState(formTemplate)
+    const [blurBackground, setBlurBackground] = useState(false)
     const [error, setError] = useState(null)
+    const [formData, editFormData] = useState(formTemplate)
+    const [formSent, setFormSent] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [processing, setProcessing] = useState(false)
+    const [sentErr, setSentErr] = useState(false)
 
     //Component States:
     const [countPets, setCountPets] = useState([{}])
@@ -155,7 +161,7 @@ export default function DigitalOwnerForm() {
     //Form Submit:
     const submitHandler = async event => {
         event.preventDefault();
-        setLoading(false)
+        setLoading(true)
         //clears errors if there were any previously
         setError(null)
         
@@ -171,12 +177,32 @@ export default function DigitalOwnerForm() {
             />
         ).toBlob()
  
-        await emailForm({ pdfBlob, pdfName, formData })
-        return navigate('/forms')
+        let res = await emailForm({ pdfBlob, pdfName, formData, setError, setProcessing, setFormSent, setSentErr, setBlurBackground })
+
+        if(res.status === 200){
+            return navigate('/forms')
+        }
     }
 
     return (
-        <IntakeSection id="digital-intake">
+        <IntakeSection id="digital-intake" className={blurBackground ? styles.blur : null}>
+            {/* Form Error on Submit */}
+            {sentErr ?
+                <FormProcessingModal
+                    formSent={formSent}
+                    setFormSent={setFormSent}
+                    setProcessing={setProcessing}
+                    sentErr={sentErr}
+                    submitHandler={submitHandler}
+                    pdfName={pdfName}
+                    formData={formData}
+                    ownerCountArr={ownerCountArr}
+                    countAuth={countAuth}
+                    countEmergencyContacts={countEmergencyContacts}
+                    countPets={countPets}
+                />
+            : null}
+
             <IntakeHeader id='intake-header'>
                 <h2>
                     New Owner Form
@@ -213,26 +239,20 @@ export default function DigitalOwnerForm() {
                     {
                         renderComponents[btnIndex]
                     }
-            {/* Form Error on Submit */}
-                {error && (
-                    <div>
-                        <ErrorText>
-                            There was a problem submitting the form.
-                            </ErrorText> 
-                            <ErrorText>
-                                Please try submitting the form again.
-                                </ErrorText>
-                        <ErrorText> 
-                            If the problem perissts, kindly reach out to us directly at (919) 355 - 2820 or {''}
-                            <ErrorLink className="e-address" href="mailto:thebiscuitgarden@gmail.com" target="_blank" rel="noreferrer">thebiscuitgarden@gmail.com</ErrorLink>.
-                        </ErrorText>
-                    </div>
-                )}
+
                 {/* Only shows send (submit) + download buttons if on the last tab index */}
                     {
                         btnIndex === 7 ? 
                             <ButtonRow>
-                                    <PDFDownloadLink 
+                                <DownloadFormPDF
+                                    pdfName={pdfName} 
+                                    formData={formData} 
+                                    ownerCountArr={ownerCountArr} 
+                                    countAuth={countAuth}
+                                    countEmergencyContacts={countEmergencyContacts}
+                                    countPets={countPets}
+                                />
+                                    {/* <PDFDownloadLink 
                                             fileName={`${pdfName}.pdf`} 
                                             document={<PdfDoc 
                                                 formData={formData} 
@@ -248,19 +268,20 @@ export default function DigitalOwnerForm() {
                                             return loading ? 'Loading PDF' : 'Download Form'
                                             }
                                         }
-                                    </PDFDownloadLink>
+                                    </PDFDownloadLink> */}
                                 <SendBtn 
                                     type="submit" 
                                     value="Send"
                                 >
                                     Send
                                 </SendBtn>
-                                    {
-                                        loading && <Rotate>
-                                        <FontAwesomeIcon icon={faSpinner} size="2xl" />
-                                        </Rotate>
-                                    }
-
+                                    {/* {
+                                        loading && 
+                                        // <Rotate>
+                                        //     <FontAwesomeIcon icon={faSpinner} size="2xl" />
+                                        // </Rotate>
+                                        
+                                    } */}
                             </ButtonRow>
                             : null
                     }
