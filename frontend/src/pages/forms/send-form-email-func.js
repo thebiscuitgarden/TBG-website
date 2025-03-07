@@ -48,7 +48,6 @@ export default async function emailForm(props){
             return true
         })
         .catch(err => {
-            console.log('HERE')
             setProcessing(false)
             setFormSent(false)
             setSentErr(true)

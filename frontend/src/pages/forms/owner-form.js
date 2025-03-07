@@ -46,7 +46,7 @@ export default function DigitalOwnerForm() {
     const [formData, editFormData] = useState(formTemplate)
     const [formSent, setFormSent] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [processing, setProcessing] = useState(false)
+    const [isProcessing, setProcessing] = useState(false)
     const [sentErr, setSentErr] = useState(false)
 
     //Component States:
@@ -164,6 +164,8 @@ export default function DigitalOwnerForm() {
         setLoading(true)
         //clears errors if there were any previously
         setError(null)
+        setProcessing(true)
+        setSentErr(false)
         
         //Makes sure that form PDF is updated
         let pdfBlob = await pdf(
@@ -185,11 +187,12 @@ export default function DigitalOwnerForm() {
     }
 
     return (
-        <IntakeSection id="digital-intake" className={blurBackground ? styles.blur : null}>
+        <IntakeSection id="digital-intake">
             {/* Form Error on Submit */}
-            {sentErr ?
+            {isProcessing || sentErr ?
                 <FormProcessingModal
                     formSent={formSent}
+                    isProcessing={isProcessing}
                     setFormSent={setFormSent}
                     setProcessing={setProcessing}
                     sentErr={sentErr}
@@ -252,36 +255,12 @@ export default function DigitalOwnerForm() {
                                     countEmergencyContacts={countEmergencyContacts}
                                     countPets={countPets}
                                 />
-                                    {/* <PDFDownloadLink 
-                                            fileName={`${pdfName}.pdf`} 
-                                            document={<PdfDoc 
-                                                formData={formData} 
-                                                ownerCount={ownerCountArr}
-                                                emergencyCount={countEmergencyContacts}
-                                                authCount={countAuth}
-                                                countPets={countPets}
-                                                pdfName={pdfName}
-                                        />}
-                                        style={styles.download}
-                                    >
-                                        {({ blob, url, loading, error }) => {
-                                            return loading ? 'Loading PDF' : 'Download Form'
-                                            }
-                                        }
-                                    </PDFDownloadLink> */}
                                 <SendBtn 
                                     type="submit" 
                                     value="Send"
                                 >
                                     Send
                                 </SendBtn>
-                                    {/* {
-                                        loading && 
-                                        // <Rotate>
-                                        //     <FontAwesomeIcon icon={faSpinner} size="2xl" />
-                                        // </Rotate>
-                                        
-                                    } */}
                             </ButtonRow>
                             : null
                     }
