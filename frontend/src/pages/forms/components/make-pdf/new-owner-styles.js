@@ -120,5 +120,16 @@ export const styles = StyleSheet.create({
         border: `1px solid ${bright_red}`,
         boxShadow: '0 0 8px 1px black',
         color: `white`,
+    },
+    downloadResend: {
+        fontSize: '1.8rem',
+        margin: '20px 0 0 0',
+        padding: '5px 10px',
+        alignItems: 'center',
+        backgroundColor: bright_red,
+        cursor: `pointer`,
+        border: `1px solid ${bright_red}`,
+        boxShadow: '0 0 8px 1px black',
+        color: `white`,
     }
 })

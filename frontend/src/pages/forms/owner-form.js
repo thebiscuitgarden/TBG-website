@@ -31,13 +31,12 @@ import { ButtonRow, FormBtn, IntakeCard, IntakeDivider, IntakeForm, IntakeHeader
 import { ErrorLink, ErrorText } from "../../styles/contact.js";
 import { CommonP, UnderlineLink } from "../../styles/common-styles.js";
 import { darkGrey } from "../../styles/constants/colors.js";
-import { Rotate } from "hamburger-react";
-import { styles } from "./components/make-pdf/new-owner-styles.js";
 import DownloadFormPDF from "./components/buttons/download-form-btn.js";
 
 
 export default function DigitalOwnerForm() {
-    const form = useRef();
+    const formPageRef = useRef()
+    const formRef = useRef();
     const navigate = useNavigate();
 
     //Form States:
@@ -187,15 +186,17 @@ export default function DigitalOwnerForm() {
     }
 
     return (
-        <IntakeSection id="digital-intake">
+        <IntakeSection id="digital-intake" ref={formPageRef}>
             {/* Form Error on Submit */}
             {isProcessing || sentErr ?
                 <FormProcessingModal
+                    formPageRef={formPageRef}
                     formSent={formSent}
                     isProcessing={isProcessing}
                     setFormSent={setFormSent}
                     setProcessing={setProcessing}
                     sentErr={sentErr}
+                    setSendErr={setSentErr}
                     submitHandler={submitHandler}
                     pdfName={pdfName}
                     formData={formData}
@@ -232,7 +233,7 @@ export default function DigitalOwnerForm() {
                     setBtnIndex={setBtnIndex}
                 />
                 <IntakeForm 
-                    ref={form}
+                    ref={formRef}
                     autoComplete="on"
                     onSubmit={submitHandler}
                     name="new_owner_form"

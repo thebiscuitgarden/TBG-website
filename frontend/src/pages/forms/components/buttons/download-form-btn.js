@@ -5,8 +5,8 @@ import { styles } from "../make-pdf/new-owner-styles";
 
 
 export default function DownloadFormPDF(props){
-    const { pdfName, formData, ownerCountArr, countAuth, countEmergencyContacts, countPets } = props
-    
+    const { countAuth, countEmergencyContacts, countPets, formData, ownerCountArr, pdfName } = props
+
     return(
         <PDFDownloadLink
             fileName={`${pdfName}.pdf`} 

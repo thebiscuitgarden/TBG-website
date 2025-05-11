@@ -1,9 +1,9 @@
 // Using only the bare min for form
 // This updates as the form updates if they use more fields
 export const formTemplate = {
-    owner1_first_name: 'Alex',
-    owner1_last_name: 'Duell',
-    owner1_email: 'aduellswe@gmail.com',
+    owner1_first_name: 'TEST Alex',
+    owner1_last_name: 'TEST Duell',
+    owner1_email: 'aduellswe@test.com',
     owner1_phone: '394-431-8531',
     owner1_address1: '6846 Carter Ct',
     owner1_address2: '',
@@ -52,5 +52,5 @@ export const formTemplate = {
     boarding_policy_initials: 'AD',
     change_reservation_policy_initials: 'AD', 
     cancel_waiver_owner_acknowledgement: "true",
-    waiver_owner_name: 'Alex Duell',
+    waiver_owner_name: 'TEST OWNER',
 }
