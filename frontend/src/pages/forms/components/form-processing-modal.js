@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PdfDoc from "./make-pdf/new-owner-pdf";
 import { usePDF } from "@react-pdf/renderer";
 
@@ -13,8 +13,8 @@ import { UnderlineLink } from "../../../styles/common-styles";
  * @param {*} props 
  */
 export default function FormProcessingModal(props){
-    const { formPageRef, formSent, setFormSent, sentErr, isProcessing, setProcessing, setSendErr, submitHandler, pdfName, formData, ownerCountArr, countAuth, countEmergencyContacts, countPets } = props
-    let pageHeight = formPageRef.current.getBoundingClientRect().height
+    const { formPageRef, formSent, modalRef, setFormSent, sentErr, isProcessing, setProcessing, setSendErr, submitHandler, pdfName, formData, ownerCountArr, countAuth, countEmergencyContacts, countPets } = props
+    let pageHeight = formPageRef?.current.getBoundingClientRect().height
     const [pdfInstance] = usePDF({ 
         document: 
             <PdfDoc
@@ -27,16 +27,26 @@ export default function FormProcessingModal(props){
             />
         })
 
-    const [sendCount, setSendCount] = useState(3)
+    const [sendCount, setSendCount] = useState(1)
 
     window.addEventListener('resize', () => {
         pageHeight = formPageRef.current.getBoundingClientRect().height
     })
+    
+    const hadnleEscKey = (evt) => {
+        console.log('Form page ref:', formPageRef.current)
+        console.log('Key:', evt.key)
+    }
+
+    useEffect(() => {
+        console.log('USE EFFECT - Form page ref:', formPageRef?.current)
+    }, [formPageRef])
 
 
     const handleClose = (evt) => {
         evt.preventDefault()
-        if(evt.target.name !== 'close'){
+        console.log('Target Name on close:', evt.target.name)
+        if(evt.target.name === 'download'){
             const pdfLink = document.createElement('a')
             pdfLink.href = pdfInstance.url
             pdfLink.download = pdfName
@@ -65,35 +75,41 @@ export default function FormProcessingModal(props){
 
     return (
         <div
+            id="loadingModal"
             style={{
-                border: '2px solid darkorange',
                 width: '100%',
                 height: pageHeight, 
                 backdropFilter: 'blur(3px)',
                 position: 'absolute',
+                lineHeight: '3.2rem'
             }}
+            onKeyDown={hadnleEscKey}
         >
-            <div style={{ 
-                width: '50%',
-                border: '2px solid purple',
-                background: `${bright_blue}`,
-                padding: '20px 0',
-                position: "sticky",
-                top: '40%',
-                left: '25%'
-
-            }}>
+            <div 
+                ref={modalRef}
+                style={{ 
+                    width: '55%',
+                    background: `${bright_blue}`,
+                    padding: '40px 0',
+                    position: "sticky",
+                    top: '40%',
+                    transform: 'translateX(41%)',
+                }}
+            >
                 {!sentErr && isProcessing ? 
-                    <div style={{
+                    <div  
+                        style={{
                         display: 'flex',
                         flexWrap: 'wrap',
                         justifyContent: 'center',
                         alignContent: 'space-between',
-                    }}>
+                        }}
+                    >
                         <p  style={{
                                 width: '70%',
                                 color: 'white',
                             }}
+                            
                         >
                             While we fetch our servers, take a small break and play with your pet!
                         </p>
@@ -102,18 +118,27 @@ export default function FormProcessingModal(props){
                 
                 {/* If there is an error, allow user to retry sending the form up to 3 more times */}
                 {sentErr && !isProcessing && sendCount < 4 ?
-                    <div style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        justifyContent: 'center',
-                        alignContent: 'space-between',
-                    }}>
+                    <div 
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            justifyContent: 'center',
+                            alignContent: 'space-between',
+                            gap: '25px'
+                        }}>
                         <p style={{
                                 width: '70%',
                                 color: 'white',
                             }}
                         >
-                            Looks like your form got caught in our doggie door! Please try sending it again.
+                            Looks like your form got caught in our doggie door!
+                        </p>
+                        <p style={{
+                            width: '70%',
+                            color: 'white',
+                        }}
+                        >
+                            Please try sending it again.
                         </p>
                         <div style={{
                                 width: '50%',
@@ -123,22 +148,27 @@ export default function FormProcessingModal(props){
                         >
                             <FormBtn
                                 onClick={evt => handleResend(evt)}
+                                style={styles.downloadResend}
+                                name="resend"
                             >
                                 Resend Form
                             </FormBtn>
                             <FormBtn
                                 onClick={handleClose}
+                                style={styles.downloadResend}
+                                name='cancel'
                             >
                                 Cancel
                             </FormBtn>
                         </div>
 
                         <p style={{
-                                width: '100%',
+                                width: '70%',
                                 color: 'white',
+                                margin: '10px 0'
                             }}
                         >
-                            You can alternatively download and email the form to {<UnderlineLink href="mailto:thebiscuitgarden@gmail.com" target="_blank" rel="noreferrer"> thebiscuitgarden@gmail.com</UnderlineLink>}.
+                            Alternatively, you can <UnderlineLink href={pdfInstance.url} download={pdfName}> download </UnderlineLink> the form and email it to {<UnderlineLink href="mailto:thebiscuitgarden@gmail.com" target="_blank" rel="noreferrer"> thebiscuitgarden@gmail.com</UnderlineLink>}.
                         </p>
                     </div>
                 : 
@@ -174,7 +204,7 @@ export default function FormProcessingModal(props){
                         </p>
 
                         <button
-                            name="download_pdf"
+                            name="download"
                             onClick={handleClose}
                             style={styles.downloadResend}
                         >

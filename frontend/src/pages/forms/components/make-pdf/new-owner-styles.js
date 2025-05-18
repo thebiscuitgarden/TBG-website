@@ -122,8 +122,8 @@ export const styles = StyleSheet.create({
         color: `white`,
     },
     downloadResend: {
-        fontSize: '1.8rem',
-        margin: '20px 0 0 0',
+        fontSize: '2rem',
+        margin: '20px 0 10px',
         padding: '5px 10px',
         alignItems: 'center',
         backgroundColor: bright_red,

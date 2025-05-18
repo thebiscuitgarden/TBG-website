@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaw, faSpinner } from '@fortawesome/free-solid-svg-icons'
@@ -37,6 +37,8 @@ import DownloadFormPDF from "./components/buttons/download-form-btn.js";
 export default function DigitalOwnerForm() {
     const formPageRef = useRef()
     const formRef = useRef();
+    const modalRef = useRef();
+    const pdfViewerRef = useRef()
     const navigate = useNavigate();
 
     //Form States:
@@ -69,6 +71,51 @@ export default function DigitalOwnerForm() {
             pdfName={pdfName}
         />
     )
+
+    const iframeFunc = () => Array.from(iframes).filter(iframe => iframe.src.includes('blob'))[0]
+
+    console.log('PDF VIEWER REF:', pdfViewerRef.current)
+    let iframes
+
+    // useEffect(() => {
+    //     console.log("USE EFFECT:")
+    //     console.log('PDF REF?', pdfViewerRef.current)
+    //     let pdfIframe
+    //     // if ((isProcessing || sentErr) && iframes.length() === 0){
+    //     //     pdfIframe = iframeFunc()
+    //     // }
+    //     // let submitBtn = document.getElementById('submit_btn')
+
+    //     // console.log('submitbtn:', submitBtn)
+        
+    //     // submitBtn?.addEventListener('click', () => {
+    //     //     iframes = document.getElementsByTagName('iframe')
+    //     //     console.log('PDF IFRAME?', iframes)
+    //     // })
+
+    //     console.log('Iframe:', iframes)
+    //     console.log('Pdf Iframe:', pdfIframe)
+
+    //     const handleOutsideModalClick = evt => {
+    //         if(!pdfIframe){
+    //             return
+    //         }
+
+    //         else if (modalRef.current !== evt.target && !modalRef?.current?.contains(evt.target)) {
+    //             // pdfIframe.click()
+    //             setProcessing(false)
+    //             setSentErr(false)
+    //         }
+    //     }
+
+    //     document.addEventListener('mousedown', handleOutsideModalClick)
+    //     console.log('END USE EFFECT')
+
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleOutsideModalClick)
+    //     }
+
+    // }, [formPageRef, setProcessing, setSentErr])
 
     //onChange function changeInput:
     async function changeInput(event){
@@ -154,6 +201,7 @@ export default function DigitalOwnerForm() {
             authCount={countAuth}
             countPets={countPets}
             pdfName={pdfName}
+            pdfViewerRef={pdfViewerRef}
         />
     ]
 
@@ -180,6 +228,9 @@ export default function DigitalOwnerForm() {
  
         let res = await emailForm({ pdfBlob, pdfName, formData, setError, setProcessing, setFormSent, setSentErr, setBlurBackground })
 
+        iframes = document.getElementsByTagName('iframe')
+        console.log('Submit PDF iframe?', iframes)
+
         if(res.status === 200){
             return navigate('/forms')
         }
@@ -190,7 +241,7 @@ export default function DigitalOwnerForm() {
             {/* Form Error on Submit */}
             {isProcessing || sentErr ?
                 <FormProcessingModal
-                    formPageRef={formPageRef}
+                    modalRef={modalRef}
                     formSent={formSent}
                     isProcessing={isProcessing}
                     setFormSent={setFormSent}
@@ -259,6 +310,7 @@ export default function DigitalOwnerForm() {
                                 <SendBtn 
                                     type="submit" 
                                     value="Send"
+                                    id="submit_btn"
                                 >
                                     Send
                                 </SendBtn>
