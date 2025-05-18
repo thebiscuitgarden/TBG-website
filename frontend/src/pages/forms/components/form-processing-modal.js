@@ -97,6 +97,7 @@ export default function FormProcessingModal(props){
                     position: "sticky",
                     top: '40%',
                     transform: 'translateX(41%)',
+                    border: '20px ridge black'
                 }}
                 ref={modalRef}
                 onKeyDown={handleEscKey}
