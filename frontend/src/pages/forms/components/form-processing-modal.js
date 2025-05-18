@@ -51,7 +51,6 @@ export default function FormProcessingModal(props){
 
     const handleClose = (evt) => {
         evt.preventDefault()
-        console.log('Target Name on close:', evt.target.name)
         if(evt.target.name === 'download'){
             const pdfLink = document.createElement('a')
             pdfLink.href = pdfInstance.url
@@ -104,6 +103,18 @@ export default function FormProcessingModal(props){
                 tabIndex={0}
                 autoFocus
             >
+                <div
+                    style={{
+                        justifySelf: 'end',
+                        width: '20px',
+                        fontSize: '40px',
+                        margin: '-30px 20px 20px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={evt => handleClose(evt)}
+                >
+                    &times;
+                </div>
                 {!sentErr && isProcessing ? 
                     <div  
                         style={{

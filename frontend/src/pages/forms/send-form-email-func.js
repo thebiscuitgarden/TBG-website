@@ -6,7 +6,7 @@ export default async function emailForm(props){
     const { pdfBlob, pdfName, formData, setError, setProcessing, setFormSent, setSentErr, setBlurBackground } = props
     let res
     // 10 secoonds before axios will be aborted + the error modal will popup
-    let time = 10000
+    let time = 0.00000001
 
     let emailData = {
         formData,
