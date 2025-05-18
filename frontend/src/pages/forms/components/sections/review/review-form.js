@@ -6,7 +6,7 @@ import PdfDoc from "../../make-pdf/new-owner-pdf";
 
 
 export default function ReviewForm(props){
-    const { formData, ownerCount, emergencyCount, authCount, countPets, pdfName, pdfViewerRef } = props
+    const { formData, ownerCount, emergencyCount, authCount, countPets, pdfName } = props
 
     //PDF States:
     let pdfDoc = useState(
@@ -22,7 +22,6 @@ export default function ReviewForm(props){
     return (
         <>
             <PDFViewer
-                // ref={pdfViewerRef}
                 style={{width: '100%', height: '800px'}} 
                 title={pdfName} 
                 showToolbar={false}

@@ -98,19 +98,6 @@ export default function OwnerSection(props){
                 </IntakeRow>
 
                 <ButtonRow>
-                {/* AFTER MVP: uncomment out to add in a remove additional owner */}
-                    {/* {
-                        ownerKey > 1 && 
-                        <RemoveAddSection 
-                            sectionId={sectionId}
-                            ownerKey={ownerKey}
-                            setOwnerKey={setOwnerKey}
-                            formData={formData}
-                            setOwnerCountArr={setOwnerCountArr}
-                            ownerCountArr={ownerCountArr}
-                        />
-                    } */}
-
                     {
                         ownerKey === 1 && 
                             <FormBtn onClick={event => addOwner(event)}> 

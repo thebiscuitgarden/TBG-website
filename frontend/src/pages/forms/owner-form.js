@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaw, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import { pdf } from '@react-pdf/renderer';
 
 //Components:
@@ -28,7 +28,6 @@ import emailForm from "./send-form-email-func.js";
 
 //Styles:
 import { ButtonRow, FormBtn, IntakeCard, IntakeDivider, IntakeForm, IntakeHeader, IntakeP, IntakePDF, IntakeSection, SendBtn } from '../../styles/owner-form.js'
-import { ErrorLink, ErrorText } from "../../styles/contact.js";
 import { CommonP, UnderlineLink } from "../../styles/common-styles.js";
 import { darkGrey } from "../../styles/constants/colors.js";
 import DownloadFormPDF from "./components/buttons/download-form-btn.js";
@@ -38,14 +37,10 @@ export default function DigitalOwnerForm() {
     const formPageRef = useRef()
     const formRef = useRef();
     const modalRef = useRef();
-    const pdfViewerRef = useRef()
     const navigate = useNavigate();
 
     //Form States:
-    const [blurBackground, setBlurBackground] = useState(false)
-    const [error, setError] = useState(null)
     const [formData, editFormData] = useState(formTemplate)
-    const [formSent, setFormSent] = useState(false)
     const [loading, setLoading] = useState(false)
     const [isProcessing, setProcessing] = useState(false)
     const [sentErr, setSentErr] = useState(false)
@@ -71,43 +66,6 @@ export default function DigitalOwnerForm() {
             pdfName={pdfName}
         />
     )
-
-    const iframeFunc = () => Array.from(iframes).filter(iframe => iframe.src.includes('blob'))[0]
-
-    let iframes
-
-    // const handleEscKey = (evt) => {
-    //     console.log('HANDLE ESCAPE KEY FUNC')
-    //     if (evt.key === 'Escape') {
-    //         setProcessing(false)
-    //         setError(false)
-    //     }
-    // }
-
-    // modalRef?.current?.addEventListener('onkeydown', handleEscKey)
-
-
-    // useEffect(() => {
-        // const handleOutsideModalClick = evt => {
-        //     if (!pdfIframe) {
-        //         return
-        //     }
-
-        //     else if (modalRef.current !== evt.target && !modalRef?.current?.contains(evt.target)) {
-        //         // pdfIframe.click()
-        //         setProcessing(false)
-        //         setError(false)
-        //     }
-        // }
-
-        // document.addEventListener('mousedown', handleOutsideModalClick)
-        // console.log('END USE EFFECT')
-
-        // return () => {
-        //     document.removeEventListener('mousedown', handleOutsideModalClick)
-        // }
-
-    // }, [])
 
     //onChange function changeInput:
     async function changeInput(event){
@@ -193,7 +151,6 @@ export default function DigitalOwnerForm() {
             authCount={countAuth}
             countPets={countPets}
             pdfName={pdfName}
-            pdfViewerRef={pdfViewerRef}
         />
     ]
 
@@ -202,7 +159,6 @@ export default function DigitalOwnerForm() {
         event.preventDefault();
         setLoading(true)
         //clears errors if there were any previously
-        setError(null)
         setProcessing(true)
         setSentErr(false)
         
@@ -218,9 +174,7 @@ export default function DigitalOwnerForm() {
             />
         ).toBlob()
  
-        let res = await emailForm({ pdfBlob, pdfName, formData, setError, setProcessing, setFormSent, setSentErr, setBlurBackground })
-
-        iframes = document.getElementsByTagName('iframe')
+        let res = await emailForm({ pdfBlob, pdfName, formData, setProcessing, setSentErr })
 
         if(res.status === 200){
             return navigate('/forms')
@@ -232,20 +186,18 @@ export default function DigitalOwnerForm() {
             {/* Form Error on Submit */}
             {isProcessing || sentErr ?
                 <FormProcessingModal
-                    modalRef={modalRef}
-                    formSent={formSent}
-                    isProcessing={isProcessing}
-                    setFormSent={setFormSent}
-                    setProcessing={setProcessing}
-                    sentErr={sentErr}
-                    setSendErr={setSentErr}
-                    submitHandler={submitHandler}
-                    pdfName={pdfName}
-                    formData={formData}
-                    ownerCountArr={ownerCountArr}
                     countAuth={countAuth}
                     countEmergencyContacts={countEmergencyContacts}
                     countPets={countPets}
+                    formData={formData}
+                    isProcessing={isProcessing}
+                    modalRef={modalRef}
+                    ownerCountArr={ownerCountArr}
+                    pdfName={pdfName}
+                    sentErr={sentErr}
+                    setProcessing={setProcessing}
+                    setSendErr={setSentErr}
+                    submitHandler={submitHandler}
                 />
             : null}
 

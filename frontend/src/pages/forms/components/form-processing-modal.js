@@ -13,8 +13,8 @@ import { UnderlineLink } from "../../../styles/common-styles";
  * @param {*} props 
  */
 export default function FormProcessingModal(props){
-    const { formPageRef, formSent, modalRef, setFormSent, sentErr, isProcessing, setProcessing, setSendErr, submitHandler, pdfName, formData, ownerCountArr, countAuth, countEmergencyContacts, countPets } = props
-    let pageHeight = formPageRef?.current.getBoundingClientRect().height
+    const { countAuth, countEmergencyContacts, countPets, formData, isProcessing, modalRef, ownerCountArr, pdfName, sentErr, setProcessing, setSendErr, submitHandler } = props
+
     const [pdfInstance] = usePDF({ 
         document: 
             <PdfDoc
@@ -44,10 +44,6 @@ export default function FormProcessingModal(props){
 
     modalRef?.current?.addEventListener('onkeydown', handleEscKey)
 
-    window.addEventListener('resize', () => {
-        pageHeight = formPageRef?.current.getBoundingClientRect().height
-    })
-
 
     const handleClose = (evt) => {
         evt.preventDefault()
@@ -67,7 +63,6 @@ export default function FormProcessingModal(props){
 
         setProcessing(false)
         setSendErr(false)
-        
     }
 
     const handleResend = (evt) => {
@@ -187,7 +182,7 @@ export default function FormProcessingModal(props){
                                 margin: '10px 0'
                             }}
                         >
-                            Alternatively, you can <UnderlineLink href={pdfInstance.url} download={pdfName}> download </UnderlineLink> the form and email it to {<UnderlineLink href="mailto:thebiscuitgarden@gmail.com" target="_blank" rel="noreferrer"> thebiscuitgarden@gmail.com</UnderlineLink>}.
+                            Alternatively, you can <UnderlineLink href={pdfInstance.url} download={pdfName}>download</UnderlineLink> the form and email it to <UnderlineLink href="mailto:thebiscuitgarden@gmail.com" target="_blank" rel="noreferrer"> thebiscuitgarden@gmail.com</UnderlineLink>.
                         </p>
                     </div>
                 : 

@@ -3,10 +3,10 @@ import { logData } from "../../loggerFunc"
 
 
 export default async function emailForm(props){
-    const { pdfBlob, pdfName, formData, setError, setProcessing, setFormSent, setSentErr, setBlurBackground } = props
+    const { formData, pdfBlob, pdfName, setProcessing, setSentErr } = props
     let res
     // 10 secoonds before axios will be aborted + the error modal will popup
-    let time = 0.00000001
+    let time = 10000
 
     let emailData = {
         formData,
@@ -45,20 +45,14 @@ export default async function emailForm(props){
         )
         .then(response => {
             setProcessing(false)
-            setFormSent(true)
-            setError(false)
             setSentErr(false)
-            setBlurBackground(false)
             logData('EMAIL RESPONSE FROM BE', response)
             res = response
             return true
         })
         .catch(err => {
             setProcessing(false)
-            setFormSent(false)
             setSentErr(true)
-            setError(true)
-            setBlurBackground(true)
             logData('EMAIL ERROR FROM BE', err)
             res = err
             return err
@@ -66,10 +60,7 @@ export default async function emailForm(props){
     }
     catch(err){
         setProcessing(false)
-        setFormSent(false)
         setSentErr(true)
-        setError(true)
-        setBlurBackground(true)
         logData('TRY CATCH ERROR', err)
         res = err
         return err
