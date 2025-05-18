@@ -5,6 +5,8 @@ import { logData } from "../../loggerFunc"
 export default async function emailForm(props){
     const { pdfBlob, pdfName, formData, setError, setProcessing, setFormSent, setSentErr, setBlurBackground } = props
     let res
+    // 10 secoonds before axios will be aborted + the error modal will popup
+    let time = 10000
 
     let emailData = {
         formData,
@@ -26,6 +28,9 @@ export default async function emailForm(props){
         sendForm.append(key, JSON.stringify(emailData[key]))
     })
     
+    const controller = new AbortController()
+    setTimeout(() => controller.abort(), time)
+    
     try{
         //Sending form data to BE to send to email service:
         await axios.post(
@@ -35,6 +40,7 @@ export default async function emailForm(props){
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                signal: controller.signal
             }
         )
         .then(response => {

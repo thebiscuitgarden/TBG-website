@@ -38,7 +38,7 @@ app.get(`/api/email-form`, (__, res) => {
     })
 })
 app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
-    let { pdfName, formData } = req.body
+    let { formData, pdfName, time } = req.body
     //To get formData information
     formData = JSON.parse(formData)
 
@@ -79,13 +79,17 @@ app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
 
     logData('SENT DATA TO EMAIL PROVIDER - CROPPED ATTACHMENT CONTENT', log_email_data)
 
+    const controller = new AbortController()
+    setTimeout(() => controller.abort(), time)
+
     //Call for email api to send form:
-    return await axios.post(`${endpoint}/api/send`, data, {
+    await axios.post(`${endpoint}/api/send`, data, {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
             'Api-Token': token
-        }
+        },
+        signal: controller.signal
     })
         .then(() => {
             logData('EMAIL SUCCESSFUL', '')
