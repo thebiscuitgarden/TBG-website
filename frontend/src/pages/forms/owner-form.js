@@ -221,7 +221,6 @@ export default function DigitalOwnerForm() {
         let res = await emailForm({ pdfBlob, pdfName, formData, setError, setProcessing, setFormSent, setSentErr, setBlurBackground })
 
         iframes = document.getElementsByTagName('iframe')
-        console.log('Submit PDF iframe?', iframes)
 
         if(res.status === 200){
             return navigate('/forms')

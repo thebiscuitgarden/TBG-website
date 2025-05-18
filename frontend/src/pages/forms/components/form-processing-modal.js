@@ -83,7 +83,7 @@ export default function FormProcessingModal(props){
             id="loading_modal"
             style={{
                 width: '100%',
-                height: pageHeight, 
+                height: document.getElementById('digital-intake').offsetHeight, 
                 backdropFilter: 'blur(3px)',
                 position: 'absolute',
                 lineHeight: '3.2rem'
