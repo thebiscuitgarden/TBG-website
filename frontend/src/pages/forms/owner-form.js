@@ -74,48 +74,40 @@ export default function DigitalOwnerForm() {
 
     const iframeFunc = () => Array.from(iframes).filter(iframe => iframe.src.includes('blob'))[0]
 
-    console.log('PDF VIEWER REF:', pdfViewerRef.current)
     let iframes
 
+    // const handleEscKey = (evt) => {
+    //     console.log('HANDLE ESCAPE KEY FUNC')
+    //     if (evt.key === 'Escape') {
+    //         setProcessing(false)
+    //         setError(false)
+    //     }
+    // }
+
+    // modalRef?.current?.addEventListener('onkeydown', handleEscKey)
+
+
     // useEffect(() => {
-    //     console.log("USE EFFECT:")
-    //     console.log('PDF REF?', pdfViewerRef.current)
-    //     let pdfIframe
-    //     // if ((isProcessing || sentErr) && iframes.length() === 0){
-    //     //     pdfIframe = iframeFunc()
-    //     // }
-    //     // let submitBtn = document.getElementById('submit_btn')
+        // const handleOutsideModalClick = evt => {
+        //     if (!pdfIframe) {
+        //         return
+        //     }
 
-    //     // console.log('submitbtn:', submitBtn)
-        
-    //     // submitBtn?.addEventListener('click', () => {
-    //     //     iframes = document.getElementsByTagName('iframe')
-    //     //     console.log('PDF IFRAME?', iframes)
-    //     // })
+        //     else if (modalRef.current !== evt.target && !modalRef?.current?.contains(evt.target)) {
+        //         // pdfIframe.click()
+        //         setProcessing(false)
+        //         setError(false)
+        //     }
+        // }
 
-    //     console.log('Iframe:', iframes)
-    //     console.log('Pdf Iframe:', pdfIframe)
+        // document.addEventListener('mousedown', handleOutsideModalClick)
+        // console.log('END USE EFFECT')
 
-    //     const handleOutsideModalClick = evt => {
-    //         if(!pdfIframe){
-    //             return
-    //         }
+        // return () => {
+        //     document.removeEventListener('mousedown', handleOutsideModalClick)
+        // }
 
-    //         else if (modalRef.current !== evt.target && !modalRef?.current?.contains(evt.target)) {
-    //             // pdfIframe.click()
-    //             setProcessing(false)
-    //             setSentErr(false)
-    //         }
-    //     }
-
-    //     document.addEventListener('mousedown', handleOutsideModalClick)
-    //     console.log('END USE EFFECT')
-
-    //     return () => {
-    //         document.removeEventListener('mousedown', handleOutsideModalClick)
-    //     }
-
-    // }, [formPageRef, setProcessing, setSentErr])
+    // }, [])
 
     //onChange function changeInput:
     async function changeInput(event){

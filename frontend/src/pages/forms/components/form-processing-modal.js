@@ -26,21 +26,27 @@ export default function FormProcessingModal(props){
                 pdfName={pdfName}
             />
         })
-
     const [sendCount, setSendCount] = useState(1)
 
-    window.addEventListener('resize', () => {
-        pageHeight = formPageRef.current.getBoundingClientRect().height
-    })
-    
-    const hadnleEscKey = (evt) => {
-        console.log('Form page ref:', formPageRef.current)
-        console.log('Key:', evt.key)
+    useEffect(() => {
+        if (modalRef.current){
+            modalRef.current.focus()
+        }
+    }, [isProcessing, modalRef, sentErr])
+
+
+    const handleEscKey = (evt) => {
+        if(evt.key === 'Escape'){
+            setProcessing(false)
+            setSendErr(false)
+        }
     }
 
-    useEffect(() => {
-        console.log('USE EFFECT - Form page ref:', formPageRef?.current)
-    }, [formPageRef])
+    modalRef?.current?.addEventListener('onkeydown', handleEscKey)
+
+    window.addEventListener('resize', () => {
+        pageHeight = formPageRef?.current.getBoundingClientRect().height
+    })
 
 
     const handleClose = (evt) => {
@@ -67,7 +73,6 @@ export default function FormProcessingModal(props){
 
     const handleResend = (evt) => {
         evt.preventDefault()
-        console.log('Sent Count:', sendCount)
         submitHandler(evt)
         setSendCount(sendCount + 1)
     }
@@ -75,7 +80,7 @@ export default function FormProcessingModal(props){
 
     return (
         <div
-            id="loadingModal"
+            id="loading_modal"
             style={{
                 width: '100%',
                 height: pageHeight, 
@@ -83,10 +88,8 @@ export default function FormProcessingModal(props){
                 position: 'absolute',
                 lineHeight: '3.2rem'
             }}
-            onKeyDown={hadnleEscKey}
         >
             <div 
-                ref={modalRef}
                 style={{ 
                     width: '55%',
                     background: `${bright_blue}`,
@@ -95,6 +98,10 @@ export default function FormProcessingModal(props){
                     top: '40%',
                     transform: 'translateX(41%)',
                 }}
+                ref={modalRef}
+                onKeyDown={handleEscKey}
+                tabIndex={0}
+                autoFocus
             >
                 {!sentErr && isProcessing ? 
                     <div  
