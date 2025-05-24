@@ -42,7 +42,7 @@ export default function Credits(){
                 </a>
 
                 <a href="https://www.linkedin.com/in/alexandria-duell/" title="linkedin icon" target="_blank" rel="noreferrer">
-                    <img loading="lazy" src={linkedIcon} width='30' height='30' alt="Blue square with rounded corners with i and n lowercase in letters in the center" />
+                    <img loading="lazy" src={linkedIcon} width='35' height='30' alt="Blue square with rounded corners with i and n lowercase in letters in the center" />
                 </a>
             </div>
             
