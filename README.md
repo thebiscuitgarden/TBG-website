@@ -12,7 +12,7 @@ This website is designed to showcase The Biscuit Garden's services, provide busi
 - CSS3
 - JavaScript
 - React
-- EmailJS (send form data to email)
+- Nodemailer (send form data to email)
 
 ## Features
 
