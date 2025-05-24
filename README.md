@@ -46,4 +46,7 @@ npm start
 ## Credits
 
 - Developer: Alexandria Duell
-- Contact: aduellswe@gmail.com
+  - Email: aduellswe@gmail.com
+  - Github: [duellal](https://github.com/duellal)
+  - LinkedIn: [in/alexandria-duell](https://www.linkedin.com/in/alexandria-duell/)
+  - [Personal Website](https://alexandriaduellswe.netlify.app/)
