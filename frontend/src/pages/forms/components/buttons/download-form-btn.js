@@ -9,6 +9,7 @@ export default function DownloadFormPDF(props){
 
     return(
         <PDFDownloadLink
+            id="form-pdf-download"
             fileName={`${pdfName}.pdf`} 
             document={<PdfDoc
                 formData={formData} 

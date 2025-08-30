@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PdfDoc from "./make-pdf/new-owner-pdf";
 import { usePDF } from "@react-pdf/renderer";
 
@@ -13,7 +14,9 @@ import { UnderlineLink } from "../../../styles/common-styles";
  * @param {*} props 
  */
 export default function FormProcessingModal(props){
-    const { countAuth, countEmergencyContacts, countPets, formData, isProcessing, modalRef, ownerCountArr, pdfName, sentErr, setProcessing, setSendErr, submitHandler } = props
+    const { countAuth, countEmergencyContacts, countPets, emailSuccess, formData, isProcessing, modalRef, ownerCountArr, pdfName, sentErr, setEmailSuccess, setProcessing, setSendErr, submitHandler } = props
+
+    const navigate = useNavigate()
 
     const [pdfInstance] = usePDF({ 
         document: 
@@ -39,15 +42,17 @@ export default function FormProcessingModal(props){
         if(evt.key === 'Escape'){
             setProcessing(false)
             setSendErr(false)
+            setEmailSuccess(false)
         }
     }
 
     modalRef?.current?.addEventListener('onkeydown', handleEscKey)
 
-
     const handleClose = (evt) => {
         evt.preventDefault()
-        if(evt.target.name === 'download'){
+        const { name } = evt.target
+
+        if (name === 'download_and_email'){
             const pdfLink = document.createElement('a')
             pdfLink.href = pdfInstance.url
             pdfLink.download = pdfName
@@ -60,9 +65,17 @@ export default function FormProcessingModal(props){
                 document.body.removeChild(pdfLink)
             }, 1000)
         }
+        
+        if (name === 'success_close' || name === 'success_download' || name === 'download_and_email'){
+            setProcessing(false)
+            setSendErr(false)
+            setEmailSuccess(false)
+            return navigate('/forms')
+        }
 
         setProcessing(false)
         setSendErr(false)
+        setEmailSuccess(false)
     }
 
     const handleResend = (evt) => {
@@ -71,10 +84,9 @@ export default function FormProcessingModal(props){
         setSendCount(sendCount + 1)
     }
 
-
     return (
         <div
-            id="loading_modal"
+            id="modals"
             style={{
                 width: '100%',
                 height: document.getElementById('digital-intake').offsetHeight, 
@@ -106,12 +118,22 @@ export default function FormProcessingModal(props){
                         margin: '-30px 20px 20px',
                         cursor: 'pointer',
                     }}
-                    onClick={evt => handleClose(evt)}
                 >
-                    &times;
+                    <button
+                        name={emailSuccess ? 'success_close' : 'close'}
+                        style={{
+                            all: 'unset',
+                        }}
+                        onClick={evt => handleClose(evt)}
+                    >
+                        &times;
+                    </button>
                 </div>
+
+                {/* Loading Modal */}
                 {!sentErr && isProcessing ? 
                     <div  
+                        id="loading_modal"
                         style={{
                         display: 'flex',
                         flexWrap: 'wrap',
@@ -125,14 +147,50 @@ export default function FormProcessingModal(props){
                             }}
                             
                         >
-                            While we fetch our servers, take a small break and play with your pet!
+                            Please wait while we try to send your form.
                         </p>
                     </div>
                 : null}
+
+                {/* On Success Modal */}
+                {
+                    !isProcessing && emailSuccess ? 
+                        <div
+                            id="success_modal"
+                            style={{
+                                padding: '60px 20px',
+                                margin: '-50px 0',
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                justifyContent: 'center',
+                                alignContent: 'space-between',
+                                gap: '15px'
+                            }}
+                        >
+                            <p style={{
+                                width: '100%',
+                                color: 'white',
+                            }}
+                            >
+                                Your form has been submitted!
+                            </p>
+
+                            <button
+                                name="success_download"
+                                onClick={handleClose}
+                                style={styles.downloadResend}
+                            >
+                                Download Form
+                            </button>
+                        </div>
+
+                    : null
+                }
                 
-                {/* If there is an error, allow user to retry sending the form up to 3 more times */}
-                {sentErr && !isProcessing && sendCount < 4 ?
+                {/* If there is an error, allow user to retry sending the form up to 1 more time */}
+                {sentErr && !isProcessing && sendCount < 2 ?
                     <div 
+                        id="resend_modal"
                         style={{
                             display: 'flex',
                             flexWrap: 'wrap',
@@ -189,9 +247,10 @@ export default function FormProcessingModal(props){
                     null
                 }
 
-                {/* If the user has tried 4 times to send the form, instruct them to download the filled out form and email to TBG */}
-                {sentErr && !isProcessing && sendCount >= 4 ? 
+                {/* If the user has tried 1 time to resend the form, instruct them to download the filled out form and email to TBG */}
+                {sentErr && !isProcessing && sendCount >= 2 ? 
                     <div
+                        id="download_and_email_modal"
                         style={{
                             padding: '60px 20px',
                             margin: '-50px 0',
@@ -207,7 +266,7 @@ export default function FormProcessingModal(props){
                             color: 'white',
                         }}
                         >
-                            Oh no! One of the dogs accidentally chewed up your request.
+                            Oh no! We're having trouble sending your form.
                         </p>
                         <p style={{
                             width: '95%',
@@ -218,7 +277,7 @@ export default function FormProcessingModal(props){
                         </p>
 
                         <button
-                            name="download"
+                            name="download_and_email"
                             onClick={handleClose}
                             style={styles.downloadResend}
                         >

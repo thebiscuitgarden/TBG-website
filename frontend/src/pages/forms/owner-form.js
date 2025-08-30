@@ -44,6 +44,7 @@ export default function DigitalOwnerForm() {
     const [loading, setLoading] = useState(false)
     const [isProcessing, setProcessing] = useState(false)
     const [sentErr, setSentErr] = useState(false)
+    const [emailSuccess, setEmailSuccess] = useState(false)
 
     //Component States:
     const [countPets, setCountPets] = useState([{}])
@@ -177,7 +178,7 @@ export default function DigitalOwnerForm() {
         let res = await emailForm({ pdfBlob, pdfName, formData, setProcessing, setSentErr })
 
         if(res.status === 200){
-            return navigate('/forms')
+            setEmailSuccess(true)
         }
     }
 
@@ -189,12 +190,33 @@ export default function DigitalOwnerForm() {
                     countAuth={countAuth}
                     countEmergencyContacts={countEmergencyContacts}
                     countPets={countPets}
+                    emailSuccess={emailSuccess}
                     formData={formData}
                     isProcessing={isProcessing}
                     modalRef={modalRef}
                     ownerCountArr={ownerCountArr}
                     pdfName={pdfName}
                     sentErr={sentErr}
+                    setEmailSuccess={setEmailSuccess}
+                    setProcessing={setProcessing}
+                    setSendErr={setSentErr}
+                    submitHandler={submitHandler}
+                />
+            : null}
+
+            {!isProcessing && emailSuccess ?
+                <FormProcessingModal 
+                    countAuth={countAuth}
+                    countEmergencyContacts={countEmergencyContacts}
+                    countPets={countPets}
+                    emailSuccess={emailSuccess}
+                    formData={formData}
+                    isProcessing={isProcessing}
+                    modalRef={modalRef}
+                    ownerCountArr={ownerCountArr}
+                    pdfName={pdfName}
+                    sentErr={sentErr}
+                    setEmailSuccess={setEmailSuccess}
                     setProcessing={setProcessing}
                     setSendErr={setSentErr}
                     submitHandler={submitHandler}
