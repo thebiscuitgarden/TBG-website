@@ -1,5 +1,5 @@
 import axios from "axios"
-import { logData } from "../../loggerFunc"
+// import { logData } from "../../loggerFunc"
 
 
 export default async function emailForm(props){
