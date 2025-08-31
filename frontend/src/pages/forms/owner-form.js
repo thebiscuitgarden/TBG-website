@@ -1,23 +1,23 @@
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import { pdf } from '@react-pdf/renderer';
 
 //Components:
 import AuthPickupSection from "./components/sections/auth/auth-pickup-section.js";
+import DownloadFormPDF from "./components/buttons/download-form-btn.js";
 import EmergencySection from "./components/sections/emergency/emergency-section.js";
 import FormProcessingModal from "./components/form-processing-modal.js";
 import LiabilityWaiver from './components/sections/waiver/liability-waiver.js'
 import OwnerFormTabs from "./components/section-tabs/form-tabs.js";
 import OwnerSection from './components/sections/owner/owner-section.js'
+import PdfDoc from "./components/make-pdf/new-owner-pdf.js";
 import PetBehaviorsSection from "./components/sections/pet/pet-section-behavior.js";
 import PetInfoSection from "./components/sections/pet/pet-section-info.js";
 import PetHealthSection from "./components/sections/pet/pet-section-health.js";
 
 //Form PDF:
 import intakeForm from './TBG-Intake-Form-2024.pdf'
-import PdfDoc from "./components/make-pdf/new-owner-pdf.js";
 import ReviewForm from "./components/sections/review/review-form.js";
 
 //Form Template:
@@ -30,16 +30,18 @@ import emailForm from "./send-form-email-func.js";
 import { ButtonRow, FormBtn, IntakeCard, IntakeDivider, IntakeForm, IntakeHeader, IntakeP, IntakePDF, IntakeSection, SendBtn } from '../../styles/owner-form.js'
 import { CommonP, UnderlineLink } from "../../styles/common-styles.js";
 import { darkGrey } from "../../styles/constants/colors.js";
-import DownloadFormPDF from "./components/buttons/download-form-btn.js";
 
 
 export default function DigitalOwnerForm() {
     const formPageRef = useRef()
     const formRef = useRef();
     const modalRef = useRef();
-    const navigate = useNavigate();
+    // const abortAxiosRef = useRef(new AbortController())
+
+    // console.log('Owner Form Abort:', abortAxiosRef.current.signal)
 
     //Form States:
+    const [abortAxios, setAbortAxios] = useState(new AbortController())
     const [formData, editFormData] = useState(formTemplate)
     const [loading, setLoading] = useState(false)
     const [isProcessing, setProcessing] = useState(false)
@@ -158,10 +160,11 @@ export default function DigitalOwnerForm() {
     //Form Submit:
     const submitHandler = async event => {
         event.preventDefault();
-        setLoading(true)
         //clears errors if there were any previously
+        setLoading(true)
         setProcessing(true)
         setSentErr(false)
+        setEmailSuccess(false)
         
         //Makes sure that form PDF is updated
         let pdfBlob = await pdf(
@@ -175,9 +178,9 @@ export default function DigitalOwnerForm() {
             />
         ).toBlob()
  
-        let res = await emailForm({ pdfBlob, pdfName, formData, setProcessing, setSentErr })
+        let res = await emailForm({ abortAxios, pdfBlob, pdfName, formData, setEmailSuccess, setProcessing, setSentErr })
 
-        if(res.status === 200){
+        if(res?.status === 200){
             setEmailSuccess(true)
         }
     }
@@ -187,6 +190,7 @@ export default function DigitalOwnerForm() {
             {/* Form Error on Submit */}
             {isProcessing || sentErr ?
                 <FormProcessingModal
+                    abortAxios={abortAxios}
                     countAuth={countAuth}
                     countEmergencyContacts={countEmergencyContacts}
                     countPets={countPets}
@@ -196,6 +200,7 @@ export default function DigitalOwnerForm() {
                     modalRef={modalRef}
                     ownerCountArr={ownerCountArr}
                     pdfName={pdfName}
+                    setAbortAxios={setAbortAxios}
                     sentErr={sentErr}
                     setEmailSuccess={setEmailSuccess}
                     setProcessing={setProcessing}
@@ -206,6 +211,7 @@ export default function DigitalOwnerForm() {
 
             {!isProcessing && emailSuccess ?
                 <FormProcessingModal 
+                    abortAxios={abortAxios}
                     countAuth={countAuth}
                     countEmergencyContacts={countEmergencyContacts}
                     countPets={countPets}
@@ -215,6 +221,7 @@ export default function DigitalOwnerForm() {
                     modalRef={modalRef}
                     ownerCountArr={ownerCountArr}
                     pdfName={pdfName}
+                    setAbortAxios={setAbortAxios}
                     sentErr={sentErr}
                     setEmailSuccess={setEmailSuccess}
                     setProcessing={setProcessing}

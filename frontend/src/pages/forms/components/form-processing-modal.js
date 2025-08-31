@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PdfDoc from "./make-pdf/new-owner-pdf";
 import { usePDF } from "@react-pdf/renderer";
+
+// Components: 
+import PdfDoc from "./make-pdf/new-owner-pdf";
 
 //Styles:
 import { bright_blue } from "../../../styles/constants/colors";
@@ -14,7 +16,7 @@ import { UnderlineLink } from "../../../styles/common-styles";
  * @param {*} props 
  */
 export default function FormProcessingModal(props){
-    const { countAuth, countEmergencyContacts, countPets, emailSuccess, formData, isProcessing, modalRef, ownerCountArr, pdfName, sentErr, setEmailSuccess, setProcessing, setSendErr, submitHandler } = props
+    const { abortAxios, countAuth, countEmergencyContacts, countPets, emailSuccess, formData, isProcessing, modalRef, ownerCountArr, pdfName, sentErr, setAbortAxios, setEmailSuccess, setProcessing, setSendErr, submitHandler } = props
 
     const navigate = useNavigate()
 
@@ -43,16 +45,30 @@ export default function FormProcessingModal(props){
             setProcessing(false)
             setSendErr(false)
             setEmailSuccess(false)
+            abortAxios.abort()
+        }
+        if (!isProcessing && emailSuccess){
+            return navigate('/forms')
+        }
+        else{
+            setAbortAxios(new AbortController())
         }
     }
 
     modalRef?.current?.addEventListener('onkeydown', handleEscKey)
 
-    const handleClose = (evt) => {
+    const handleClose = async (evt) => {
         evt.preventDefault()
         const { name } = evt.target
+        // Aborts Axios request for sending PDF
+        await abortAxios.abort()
+        // Reset form processing states:
+        setProcessing(false)
+        setSendErr(false)
+        setEmailSuccess(false)
 
-        if (name === 'download_and_email'){
+        // Open PDF in new window with modal "download" buttons
+        if (name === 'download_and_email' || name === 'success_download'){
             const pdfLink = document.createElement('a')
             pdfLink.href = pdfInstance.url
             pdfLink.download = pdfName
@@ -65,17 +81,12 @@ export default function FormProcessingModal(props){
                 document.body.removeChild(pdfLink)
             }, 1000)
         }
-        
+        // Reset and return to forms page on success or on the last error modal
         if (name === 'success_close' || name === 'success_download' || name === 'download_and_email'){
-            setProcessing(false)
-            setSendErr(false)
-            setEmailSuccess(false)
             return navigate('/forms')
         }
 
-        setProcessing(false)
-        setSendErr(false)
-        setEmailSuccess(false)
+        setAbortAxios(new AbortController())
     }
 
     const handleResend = (evt) => {

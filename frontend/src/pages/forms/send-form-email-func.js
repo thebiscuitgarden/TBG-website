@@ -3,10 +3,11 @@ import { logData } from "../../loggerFunc"
 
 
 export default async function emailForm(props){
-    const { formData, pdfBlob, pdfName, setProcessing, setSentErr } = props
+    const { abortAxios, formData, pdfBlob, pdfName, setEmailSuccess, setProcessing, setSentErr } = props
+
     let res
     // 10 secoonds before axios will be aborted + the error modal will popup
-    let time = 10000
+    const timeoutSignal = AbortSignal.timeout(10000)
 
     let emailData = {
         formData,
@@ -28,43 +29,64 @@ export default async function emailForm(props){
         sendForm.append(key, JSON.stringify(emailData[key]))
     })
     
-    const controller = new AbortController()
-    setTimeout(() => controller.abort(), time)
-    
-    try{
-        //Sending form data to BE to send to email service:
-        await axios.post(
-            `${process.env.REACT_APP_API}/api/email-form`, 
-            sendForm,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                signal: controller.signal
+    // Gives the user 5 seconds to cancel the request: 
+    setTimeout(async () => {
+        try {
+            //Sending form data to BE to send to email service:
+            await axios.post(
+                `${process.env.REACT_APP_API}/api/email-form`,
+                sendForm,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    signal: AbortSignal.any([abortAxios.signal, timeoutSignal])
+                }
+            )
+                .then(response => {
+                    setProcessing(false)
+                    setSentErr(false)
+                    setEmailSuccess(true)
+                    // logData('EMAIL RESPONSE FROM BE', response)
+                    res = response
+                    return true
+                })
+                .catch(err => {
+                    if (err.message === 'canceled') {
+                        setProcessing(false)
+                        setSentErr(false)
+                        setEmailSuccess(false)
+                        // logData('CANCELED ERROR FROM BE', err)
+                        res = err
+                        return err
+                    }
+
+                    setProcessing(false)
+                    setSentErr(true)
+                    setEmailSuccess(false)
+                    // logData('EMAIL ERROR FROM BE', err)
+                    res = err
+                    return err
+                })
+        }
+        catch (err) {
+            if (err.message === 'canceled') {
+                setProcessing(false)
+                setSentErr(false)
+                setEmailSuccess(false)
+                // logData('CANCELED ERROR FROM BE', err)
+                res = err
+                return err
             }
-        )
-        .then(response => {
-            setProcessing(false)
-            setSentErr(false)
-            logData('EMAIL RESPONSE FROM BE', response)
-            res = response
-            return true
-        })
-        .catch(err => {
+
             setProcessing(false)
             setSentErr(true)
-            logData('EMAIL ERROR FROM BE', err)
+            setEmailSuccess(false)
+            // logData('EMAIL TRY CATCH ERROR', err)
             res = err
             return err
-        })
-    }
-    catch(err){
-        setProcessing(false)
-        setSentErr(true)
-        logData('TRY CATCH ERROR', err)
-        res = err
-        return err
-    }
+        }
+    }, 0)
     
     return res
 }
