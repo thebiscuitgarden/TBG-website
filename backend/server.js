@@ -38,8 +38,9 @@ app.get(`/api/email-form`, (__, res) => {
 })
 
 app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
-    console.log('Email Send Start')
+    logData('Email Send Start')
     let { formData, pdfName, time } = req.body
+    time = time ? time : 0
     //To get formData information
     formData = JSON.parse(formData)
 
@@ -90,12 +91,12 @@ app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
         })
     }
     
-    console.log('Email Sent Successfully!')
+    logData('Email Sent Successfully!')
     return res.status(200).json({
         message: "Email sent successfully!"
     })
 })
 
 app.listen(port, () => {
-    console.log(`Server on port ${port}`)
+    logData(`Server on port ${port}`)
 })
