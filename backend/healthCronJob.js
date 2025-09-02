@@ -28,6 +28,7 @@ const healthCronJob = new CronJob(
     '*/14 * * * *',
     async function(){
         console.log("CRON JOB STARTED")
+        
         try{
             await fetch(`${process.env.BE_API}/email-form`)
                 .then(res => console.log('Health Ping Success:', res))
@@ -36,6 +37,8 @@ const healthCronJob = new CronJob(
         catch(err){
             console.error('[2] Health Ping Failed:\n', err)
         }
+
+        console.log('CRON JOB END')
     }
 )
 
