@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer')
 // Cron Job
 const healthCronJob = require('./healthCronJob')
 if (process.env.API_STAGE !== 'development'){
+    console.log('CRON Job Start for Pinging API to not spin down')
     healthCronJob.start()
 }
 if (process.env.API_STAGE === 'development') {
