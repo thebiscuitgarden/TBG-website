@@ -34,7 +34,7 @@ export default async function emailForm(props){
         try {
             //Sending form data to BE to send to email service:
             await axios.post(
-                `${process.env.REACT_APP_API}/api/email-form`,
+                `${process.env.REACT_APP_API}/email-form`,
                 sendForm,
                 {
                     headers: {

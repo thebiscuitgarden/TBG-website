@@ -3,6 +3,17 @@ const dotenv = require('dotenv')
 const express = require('express')
 const multer  = require('multer');
 const nodemailer = require('nodemailer')
+
+// Cron Job
+const healthCronJob = require('./healthCronJob')
+if (process.env.API_STAGE !== 'development'){
+    healthCronJob.start()
+}
+if (process.env.API_STAGE === 'development') {
+    healthCronJob.stop()
+}
+
+// Console logger
 const { logData } = require('../frontend/src/loggerFunc');
 
 dotenv.config()
@@ -19,25 +30,26 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
 
+
 const app = express()
 
 app.use('/', express.json())
 app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 
-app.get(`/api`, (__, res) => {
+app.get(`/`, (__, res) => {
     res.status(200).json({
         message: `API is running on port ${port}!`
     })
 })
 
-app.get(`/api/email-form`, (__, res) => {
+app.get(`/email-form`, (__, res) => {
     res.status(200).json({
-        message: `/api/email-form is running`
+        message: `/email-form is running`
     })
 })
 
-app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
+app.post(`/email-form`, upload.single('file'), async (req, res) => {
     logData('Email Send Start')
     let { formData, pdfName, time } = req.body
     time = time ? time : 0
