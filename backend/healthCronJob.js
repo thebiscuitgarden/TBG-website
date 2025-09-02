@@ -27,6 +27,7 @@ Currently - will run every 14 minutes so onRender does not spin down
 const healthCronJob = new CronJob(
     '*/14 * * * *',
     async function(){
+        console.log("CRON JOB STARTED")
         try{
             await fetch(`${process.env.BE_API}/email-form`)
                 .then(res => console.log('Health Ping Success:', res))
