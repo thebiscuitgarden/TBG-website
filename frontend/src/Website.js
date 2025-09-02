@@ -22,8 +22,6 @@ function Website() {
       try{
         console.log('Ping BE API')
         await axios.get(`${process.env.REACT_APP_API}/email-form`)
-          .then(res => { console.log('Keep-alive ping Success:', res)})
-          .catch(err => console.log("Keep-alive ping Failed:", err))
       }
       catch(err){
         console.error("Keep-alive ping failed:", err)

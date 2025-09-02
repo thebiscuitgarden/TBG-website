@@ -45,6 +45,8 @@ app.get(`/`, (__, res) => {
 })
 
 app.get(`/email-form`, (__, res) => {
+    console.log(`PING: /email-form is running`)
+
     res.status(200).json({
         message: `/email-form is running`
     })
