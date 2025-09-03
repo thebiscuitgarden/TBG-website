@@ -4,16 +4,14 @@ import { CommonInfoSection } from "./commonBDG";
 import { bright_blue } from './constants/colors'
 
 export const FormPageInfoSection = styled(CommonInfoSection)`
-width: 60%;
+width: 50%;
 `
 
 export const FormPageRedBox = styled(RedBoxWithShadow)`
-display: flex;
 flex-wrap: wrap;
 width: 100%;
 padding: 3%;
-margin: 10px 0 10px;
-height: auto;
+margin: 0 10px;
 
 p, a {
     color: white;
