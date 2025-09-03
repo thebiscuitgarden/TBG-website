@@ -36,7 +36,8 @@ export const ErrTextDiv = styled.div`
 `
 
 export const ErrButton = styled(FormPageBtn)`
-    width: 20%;
+    width: 18%;
     padding: 0.5%;
     margin: 1% 0;
+    font-size: 2.5rem;
 `
