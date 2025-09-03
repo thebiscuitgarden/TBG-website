@@ -101,7 +101,6 @@ export default function PdfDoc(props){
                         Waivers
                     </Text>
 
-                    {/* <View style={styles.view_row}> */}
                         <View style={[styles.section]}>
                             <Text style={styles.sub_section}>
                                 Liability Waiver
@@ -121,10 +120,8 @@ export default function PdfDoc(props){
                                 </View>
                             </View>
                         </View>
-                    {/* </View> */}
 
                         {/* Cancellation Policy */}
-                        {/* <View style={styles.view_row}> */}
                             <View style={[styles.section]}>
                                 <Text style={styles.sub_section}>
                                     Cancellation Policy
@@ -197,7 +194,6 @@ export default function PdfDoc(props){
                                 </View>
                             </View>
                         </View>
-                    {/* </View> */}
                     
 
                     <View style={styles.view_row}>
@@ -220,14 +216,6 @@ export default function PdfDoc(props){
                         </Text>
                         </View>
                     </View>
-                {/* </View> */}
-                
-                    
-                {/* <Text 
-                    style={styles.pageNumber} 
-                    render={({pageNumber, totalPages }) => (`${pageNumber} / ${totalPages}`)} 
-                    fixed
-                /> */}
             </Page>
         </Document>
     )
