@@ -6,7 +6,8 @@ import Website from './Website';
 import About from './pages/about/about';
 import Boarding from './pages/boarding';
 import Credits from './pages/credits';
-import Err404 from './pages/err404';
+import Err404 from './pages/errors/err404';
+import Err503 from "./pages/errors/err503";
 import Daycare from './pages/daycare';
 import DigitalOwnerForm from './pages/forms/owner-form';
 import Forms from './pages/forms/forms-page';
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
             {path: 'boarding', element: <Boarding />},
             {path: 'daycare', element: <Daycare />},
             {path: 'forms', element: <Forms />},
-            {path: '/forms/new-owner', element: <DigitalOwnerForm />},
+            {path: '/forms/new-owner', element: <Err503 />},
             {path: 'grooming', element: <Grooming />},
             {path:'requirements', element: <Requirements />}
         ]
