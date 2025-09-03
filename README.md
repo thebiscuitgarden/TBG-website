@@ -12,7 +12,7 @@ This website is designed to showcase The Biscuit Garden's services, provide busi
 - CSS3
 - JavaScript
 - React
-- Nodemailer (send form data to email)
+- EmailJS (send form data to email)
 
 ## Features
 
@@ -24,56 +24,26 @@ This website is designed to showcase The Biscuit Garden's services, provide busi
 
 ## Setup
 
-### 1. Clone the Repository
+1. Clone the Repository:
 
 ```bash
 git clone https://github.com/duellal/TBG-website.git
 ```
 
-### 2. Install Dependencies
+2. Install Dependencies:
 
 ```bash
-cd TBG-website/frontend
+cd TBG-website
 npm i
 ```
 
-```bash
-cd TBG-website/backend
-npm i
-```
-
-### 3. Add .env Variables
-
-#### Backend Variables
-
-- EMAIL_HOST
-- EMAIL_RECIPIENT
-- EMAIL_SENDER
-- SENDER_PASS
-
-<b>Note:</b> If using Gmail, go to the gmail sender's settings and search for "App Passwords". Create a new app password and use that for the SENDER_PASS env variable. Nodemailer will not work otherwise.
-
-#### Frontend Variables
-
-- REACT_APP_API
-  - Can either be the localhost url or the deployed url
-
-### 4. Run the Application
+3. Run the Application:
 
 ```bash
-cd TBG-website/frontend
-npm run start
-```
-
-```bash
-cd TBG-website/backend
-npm run start
+npm start
 ```
 
 ## Credits
 
 - Developer: Alexandria Duell
-  - Email: aduellswe@gmail.com
-  - Github: [duellal](https://github.com/duellal)
-  - LinkedIn: [in/alexandria-duell](https://www.linkedin.com/in/alexandria-duell/)
-  - [Personal Website](https://alexandriaduellswe.netlify.app/)
+- Contact: aduellswe@gmail.com

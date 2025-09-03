@@ -6,7 +6,7 @@
 const logData = (message, data) => {
     console.info(
         `${message}\n---------------------------------------------------------------\n${
-        typeof data === 'object' ? JSON.stringify(data) : data === undefined ? '' : data
+            typeof data === 'object' ? JSON.stringify(data) : data
         }\n`
     );
 };

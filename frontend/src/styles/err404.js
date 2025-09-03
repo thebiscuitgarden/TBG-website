@@ -4,40 +4,38 @@ ALL pages have an expanded different photo - same like header below the nav bar
 */
 
 import styled from 'styled-components';
-import { FormPageBtn } from './forms-page';
 
-export const ErrSection = styled.div`
+export const Err404Section = styled.div`
     display: flex,
     justify-content: center;
     flex-wrap: wrap;
     text-align: center;
     width: 100%;
 `
-export const ErrH1 = styled.h1`
+export const Err404H1 = styled.h1`
     margin: 30px;
     width: 65%;
 `
 
-export const ErrBelly = styled.img`
+export const Err404Belly = styled.img`
     width: 20%;
     margin: 30px;
 `
 
-export const Errp = styled.p`
+export const Err404p = styled.p`
     width: 100%;
     font-size: 2.2rem;
     margin: 0.5% 0;
 `
 
-export const ErrTextDiv = styled.div`
+export const Err404TextDiv = styled.div`
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 `
 
-export const ErrButton = styled(FormPageBtn)`
-    width: 18%;
+export const Err404Button = styled.button`
+    width: 150px;
     padding: 0.5%;
     margin: 1% 0;
-    font-size: 2.5rem;
 `
