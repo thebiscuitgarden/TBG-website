@@ -21,7 +21,11 @@ export default function ReviewForm(props){
 
     return (
         <>
-            <PDFViewer style={{width: '100%', height: '800px'}} title={pdfName} showToolbar={false}>
+            <PDFViewer
+                style={{width: '100%', height: '800px'}} 
+                title={pdfName} 
+                showToolbar={false}
+            >
                 {pdfDoc}
             </PDFViewer>
        </>

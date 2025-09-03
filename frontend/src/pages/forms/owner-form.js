@@ -1,22 +1,23 @@
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaw, faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
+import { faPaw } from '@fortawesome/free-solid-svg-icons'
+import { pdf } from '@react-pdf/renderer';
 
 //Components:
 import AuthPickupSection from "./components/sections/auth/auth-pickup-section.js";
+import DownloadFormPDF from "./components/buttons/download-form-btn.js";
 import EmergencySection from "./components/sections/emergency/emergency-section.js";
+import FormProcessingModal from "./components/form-processing-modal.js";
 import LiabilityWaiver from './components/sections/waiver/liability-waiver.js'
 import OwnerFormTabs from "./components/section-tabs/form-tabs.js";
 import OwnerSection from './components/sections/owner/owner-section.js'
+import PdfDoc from "./components/make-pdf/new-owner-pdf.js";
 import PetBehaviorsSection from "./components/sections/pet/pet-section-behavior.js";
 import PetInfoSection from "./components/sections/pet/pet-section-info.js";
 import PetHealthSection from "./components/sections/pet/pet-section-health.js";
 
 //Form PDF:
 import intakeForm from './TBG-Intake-Form-2024.pdf'
-import PdfDoc from "./components/make-pdf/new-owner-pdf.js";
 import ReviewForm from "./components/sections/review/review-form.js";
 
 //Form Template:
@@ -27,21 +28,22 @@ import emailForm from "./send-form-email-func.js";
 
 //Styles:
 import { ButtonRow, FormBtn, IntakeCard, IntakeDivider, IntakeForm, IntakeHeader, IntakeP, IntakePDF, IntakeSection, SendBtn } from '../../styles/owner-form.js'
-import { ErrorLink, ErrorText } from "../../styles/contact.js";
 import { CommonP, UnderlineLink } from "../../styles/common-styles.js";
 import { darkGrey } from "../../styles/constants/colors.js";
-import { Rotate } from "hamburger-react";
-import { styles } from "./components/make-pdf/new-owner-styles.js";
 
 
 export default function DigitalOwnerForm() {
-    const form = useRef();
-    const navigate = useNavigate();
+    const formPageRef = useRef()
+    const formRef = useRef();
+    const modalRef = useRef();
 
     //Form States:
+    const [abortAxios, setAbortAxios] = useState(new AbortController())
     const [formData, editFormData] = useState(formTemplate)
-    const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [isProcessing, setProcessing] = useState(false)
+    const [sentErr, setSentErr] = useState(false)
+    const [emailSuccess, setEmailSuccess] = useState(false)
 
     //Component States:
     const [countPets, setCountPets] = useState([{}])
@@ -155,11 +157,13 @@ export default function DigitalOwnerForm() {
     //Form Submit:
     const submitHandler = async event => {
         event.preventDefault();
-        setLoading(false)
         //clears errors if there were any previously
-        setError(null)
+        setLoading(true)
+        setProcessing(true)
+        setSentErr(false)
+        setEmailSuccess(false)
+        
         //Makes sure that form PDF is updated
-
         let pdfBlob = await pdf(
             <PdfDoc 
                 formData={formData} 
@@ -171,12 +175,58 @@ export default function DigitalOwnerForm() {
             />
         ).toBlob()
  
-        await emailForm({ pdfBlob, pdfName, formData })
-        return navigate('/forms')
+        let res = await emailForm({ abortAxios, pdfBlob, pdfName, formData, setEmailSuccess, setProcessing, setSentErr })
+
+        if(res?.status === 200){
+            setEmailSuccess(true)
+        }
     }
 
     return (
-        <IntakeSection id="digital-intake">
+        <IntakeSection id="digital-intake" ref={formPageRef}>
+            {/* Form Error on Submit */}
+            {isProcessing || sentErr ?
+                <FormProcessingModal
+                    abortAxios={abortAxios}
+                    countAuth={countAuth}
+                    countEmergencyContacts={countEmergencyContacts}
+                    countPets={countPets}
+                    emailSuccess={emailSuccess}
+                    formData={formData}
+                    isProcessing={isProcessing}
+                    modalRef={modalRef}
+                    ownerCountArr={ownerCountArr}
+                    pdfName={pdfName}
+                    setAbortAxios={setAbortAxios}
+                    sentErr={sentErr}
+                    setEmailSuccess={setEmailSuccess}
+                    setProcessing={setProcessing}
+                    setSendErr={setSentErr}
+                    submitHandler={submitHandler}
+                />
+            : null}
+
+            {!isProcessing && emailSuccess ?
+                <FormProcessingModal 
+                    abortAxios={abortAxios}
+                    countAuth={countAuth}
+                    countEmergencyContacts={countEmergencyContacts}
+                    countPets={countPets}
+                    emailSuccess={emailSuccess}
+                    formData={formData}
+                    isProcessing={isProcessing}
+                    modalRef={modalRef}
+                    ownerCountArr={ownerCountArr}
+                    pdfName={pdfName}
+                    setAbortAxios={setAbortAxios}
+                    sentErr={sentErr}
+                    setEmailSuccess={setEmailSuccess}
+                    setProcessing={setProcessing}
+                    setSendErr={setSentErr}
+                    submitHandler={submitHandler}
+                />
+            : null}
+
             <IntakeHeader id='intake-header'>
                 <h2>
                     New Owner Form
@@ -203,7 +253,7 @@ export default function DigitalOwnerForm() {
                     setBtnIndex={setBtnIndex}
                 />
                 <IntakeForm 
-                    ref={form}
+                    ref={formRef}
                     autoComplete="on"
                     onSubmit={submitHandler}
                     name="new_owner_form"
@@ -213,54 +263,26 @@ export default function DigitalOwnerForm() {
                     {
                         renderComponents[btnIndex]
                     }
-            {/* Form Error on Submit */}
-                {error && (
-                    <div>
-                        <ErrorText>
-                            There was a problem submitting the form.
-                            </ErrorText> 
-                            <ErrorText>
-                                Please try submitting the form again.
-                                </ErrorText>
-                        <ErrorText> 
-                            If the problem perissts, kindly reach out to us directly at (919) 355 - 2820 or {''}
-                            <ErrorLink className="e-address" href="mailto:thebiscuitgarden@gmail.com" target="_blank" rel="noreferrer">thebiscuitgarden@gmail.com</ErrorLink>.
-                        </ErrorText>
-                    </div>
-                )}
+
                 {/* Only shows send (submit) + download buttons if on the last tab index */}
                     {
                         btnIndex === 7 ? 
                             <ButtonRow>
-                                    <PDFDownloadLink 
-                                            fileName={`${pdfName}.pdf`} 
-                                            document={<PdfDoc 
-                                                formData={formData} 
-                                                ownerCount={ownerCountArr}
-                                                emergencyCount={countEmergencyContacts}
-                                                authCount={countAuth}
-                                                countPets={countPets}
-                                                pdfName={pdfName}
-                                        />}
-                                        style={styles.download}
-                                    >
-                                        {({ blob, url, loading, error }) => {
-                                            return loading ? 'Loading PDF' : 'Download Form'
-                                            }
-                                        }
-                                    </PDFDownloadLink>
+                                <DownloadFormPDF
+                                    pdfName={pdfName} 
+                                    formData={formData} 
+                                    ownerCountArr={ownerCountArr} 
+                                    countAuth={countAuth}
+                                    countEmergencyContacts={countEmergencyContacts}
+                                    countPets={countPets}
+                                />
                                 <SendBtn 
                                     type="submit" 
                                     value="Send"
+                                    id="submit_btn"
                                 >
                                     Send
                                 </SendBtn>
-                                    {
-                                        loading && <Rotate>
-                                        <FontAwesomeIcon icon={faSpinner} size="2xl" />
-                                        </Rotate>
-                                    }
-
                             </ButtonRow>
                             : null
                     }

@@ -1,23 +1,35 @@
-const express = require('express')
-const dotenv = require('dotenv')
 const cors = require('cors');
-const axios = require('axios');
+const dotenv = require('dotenv')
+const express = require('express')
 const multer  = require('multer');
+const nodemailer = require('nodemailer')
+
+// Cron Job
+const healthCronJob = require('./healthCronJob')
+if (process.env.API_STAGE !== 'development'){
+    console.log('CRON Job Start for Pinging API to not spin down')
+    healthCronJob.start()
+}
+if (process.env.API_STAGE === 'development') {
+    healthCronJob.stop()
+}
+
+// Console logger
 const { logData } = require('../frontend/src/loggerFunc');
 
 dotenv.config()
 
 //Variables
-const endpoint = process.env.EMAIL_DOMAIN
-const port = process.env.EMAIL_PORT || 4800
+const host = process.env.EMAIL_HOST
+const port = process.env.PORT || 4800
 const recipient = process.env.EMAIL_RECIPIENT
 const sender = process.env.EMAIL_SENDER
-const template = process.env.EMAIL_TEMPLATE
-const token = process.env.EMAIL_TOKEN
+const sender_pass = process.env.SENDER_PASS
 
 //Setting up to recieve files from FE
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
+
 
 
 const app = express()
@@ -26,82 +38,80 @@ app.use('/', express.json())
 app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 
-app.get(`/api`, (__, res) => {
+app.get(`/`, (__, res) => {
     res.status(200).json({
         message: `API is running on port ${port}!`
     })
 })
 
-app.get(`/api/email-form`, (__, res) => {
+app.get(`/email-form`, (__, res) => {
+    console.log(`PING: /email-form is running`)
+
     res.status(200).json({
-        message: `/api/email-form is running`
+        message: `/email-form is running`
     })
 })
-app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
-    let { pdfName, formData } = req.body
+
+app.post(`/email-form`, upload.single('file'), async (req, res) => {
+    logData('Email Send Start')
+    let { formData, pdfName, time } = req.body
+    time = time ? time : 0
     //To get formData information
     formData = JSON.parse(formData)
 
     logData('PDF NAME', pdfName)
     logData('FORM DATA', formData)
+    logData('PDF Blob:\nFieldname', req.file.fieldname)
+    logData('\nOriginal Name', req.file.originalname)
+    logData('\nmimetype', req.file.mimetype)
+    logData('\nSize', req.file.size)
 
-    let base64pdf = req.file.buffer.toString('base64')
+    let pdf = Buffer.from(req.file.buffer)
 
-    //For email service:
-    const data = {
-        from: {
-            email: sender,
-            name: 'TBG Website'
-        },
-        to: [{
-            email: recipient
-        }],
-        template_uuid: template,
-        template_variables: {
-            'owner': {
-                'first_name': `${formData.owner1_first_name}`,
-                'last_name': `${formData.owner1_last_name}`    
-            },
-        },
-        attachments: [
-            {
-                content: base64pdf, 
-                filename: pdfName,
-                type: req.file.mimetype
-            }]
+    try{
+        const controller = new AbortController()
+        setTimeout(() => controller.abort(), time)
+        
+        //For emailing with nodemailer:
+        const transporter = nodemailer.createTransport({
+            host: host,
+            port: 587,
+            secure: false,
+            auth: {
+                user: sender,
+                pass: sender_pass
+            }
+        })
+
+        const info = await transporter.sendMail({
+            from: `TBG Website ${sender}`,
+            to: recipient,
+            subject: `${formData.owner1_first_name} ${formData.owner1_last_name}'s Intake Form Submission`,
+            text: `Attached is ${formData.owner1_first_name} ${formData.owner1_last_name}'s intake form.`,
+            html: `<p> Attached is ${formData.owner1_first_name} ${formData.owner1_last_name}'s intake form. </p >`,
+            attachments: [
+                {
+                    filename: `${pdfName}.pdf`,
+                    content: pdf
+                }
+            ]
+        })
+
+        logData('INFO from mailer:', info)
     }
-
-    let log_email_data = {...data}
-    // If base64 is large, then cut for ease of logging data
-    log_email_data['attachments'][0]['content'].length > 500 ? 
-        log_email_data['attachments'][0]['content'].slice(0, 501) 
-        : log_email_data['attachments'][0]['content']
-
-    logData('SENT DATA TO EMAIL PROVIDER - CROPPED ATTACHMENT CONTENT', log_email_data)
-
-    //Call for email api to send form:
-    return await axios.post(`${endpoint}/api/send`, data, {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            'Api-Token': token
-        }
+    catch(error){
+        return res.status(500).json({
+            error,
+            message: "Email could not be sent"
+        })
+    }
+    
+    logData('Email Sent Successfully!')
+    return res.status(200).json({
+        message: "Email sent successfully!"
     })
-        .then(() => {
-            logData('EMAIL SUCCESSFUL', '')
-            return res.status(200).json({
-                message: `Owner form emailed successfully`
-            })
-        })
-        .catch(err =>{
-            logData('EMAIL PROVIDER ERROR:', err)
-            return res.status(500).json({
-                message: `API - error in sending owner form through email`,
-                error: err
-            })
-        })
 })
 
 app.listen(port, () => {
-    console.log(`Server on port ${port}`)
+    logData(`Server on port ${port}`)
 })

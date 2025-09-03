@@ -57,9 +57,9 @@ export default function LiabilityWaiver(props){
                         <IntakeWaiverP style={{margin: '0px'}}>
                             <Input 
                                 type="checkbox" 
-                                name="liability_owner_acknowledgement" 
-                                value={formData["liability_owner_acknowledgement"]}
-                                checked={formData['liability_owner_acknowledgement'] === "true"}
+                                name="liability_waiver_owner_acknowledgement" 
+                                value={formData["liability_waiver_owner_acknowledgement"]}
+                                checked={formData['liability_waiver_owner_acknowledgement'] === "true"}
                                 onChange={changeInput}
                                 required 
                             />
@@ -175,9 +175,9 @@ export default function LiabilityWaiver(props){
                         <IntakeWaiverP style={{margin: '0 0 20px'}}>
                             <Input 
                                 type="checkbox" 
-                                name="cancel_owner_acknowledgement" 
-                                value={formData["cancel_owner_acknowledgement"]}
-                                checked={formData['cancel_owner_acknowledgement'] === "true"}
+                                name="cancel_waiver_owner_acknowledgement" 
+                                value={formData["cancel_waiver_owner_acknowledgement"]}
+                                checked={formData['cancel_waiver_owner_acknowledgement'] === "true"}
                                 onChange={changeInput}
                                 required 
                             />

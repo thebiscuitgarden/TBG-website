@@ -7,7 +7,6 @@ import { ButtonRow, FormBtn, IntakeCol, IntakeH3, IntakeHDiv } from '../../../..
 import AsteriskHeader from "../../asterisk-header"
 import NextPrevBtn from "../../buttons/next-section-btn"
 import PetInfo from "./pet-info"
-// import RemoveAddSection from "../../buttons/remove-addition-btn"
 
 /**
  * @component The core of the initial pet information section. Allows user to add up to 5 pets + adds the pets to the other 2 pet sections (behavior + health).
@@ -70,19 +69,6 @@ export default function PetInfoSection(props){
                         setBtnIndex={setBtnIndex}
                         sectionId={sectionId}
                     />
-
-                    {/* AFTER MVP: remove additional sections with a button */}
-                    {/* {
-                        petNum > 2 && 
-                        <RemoveAddSection
-                            sectionId={sectionId}
-                            key={petNum}
-                            setKey={setPetNum}
-                            formData={formData}
-                            count={petNum}
-                            setCount={setPetNum}
-                        />
-                    } */}
 
                     {
                         petNum < 5  && 
