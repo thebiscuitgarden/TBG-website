@@ -45,10 +45,10 @@ export default function Daycare(){
                     <PricesDiv>
                         <PricesSection>
                             <CommonP>
-                                Full Day ..........$28
+                                Full Day ..........$30
                             </CommonP>
                             <CommonP>
-                                Half Day .........$18
+                                Half Day .........$20
                             </CommonP>
                         </PricesSection>
                     </PricesDiv>
@@ -62,13 +62,7 @@ export default function Daycare(){
                         
                         <PricesSection>
                             <CommonP>
-                                10 Day .........$260
-                            </CommonP>
-                            <CommonP>
-                                20 Day .........$480
-                            </CommonP>
-                            <CommonP>
-                                30 Day ..........$600
+                                10 Day .........$250
                             </CommonP>
 
                             <PricesAsteriskDiv>

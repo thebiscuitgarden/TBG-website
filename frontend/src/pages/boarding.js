@@ -58,43 +58,12 @@ export default function Boarding(){
                     </HeaderSection>
                     <PricesSection>
                         <CommonP>
-                            Dogs under 40 lbs ..........$40/night
+                            First Dog ..........$50/night
                         </CommonP>
                         <CommonP>
-                            Dogs 40 lbs and over ..........$45/night
-                        </CommonP>
-                        <CommonP>
-                            Additional Dog(s) ..........$35/night
+                            Additional Dog(s) ..........$40/night
                         </CommonP>
                     </PricesSection>
-                </PricesDiv>
-
-                <Requirements boarding='boarding'/>
-
-                <PricesDiv>
-                    <HeaderSection>
-                        <CommonH2>
-                            Other Pets
-                        </CommonH2>
-                        <div style={{width: '100%', height: '20px'}}></div>
-                        <CommonH3>
-                            Rates
-                        </CommonH3>
-                    </HeaderSection>
-
-                    <PricesSection>
-                        <CommonP>
-                            Cat Boarding ..........$25/night
-                        </CommonP>
-                        <CommonP>
-                            Additional Cat(s) ..........$15/night
-                        </CommonP>
-                        <CommonP>
-                            Pocket Pets (Bunnies, Birds, Reptiles, etc.) ..........$20/night
-                        </CommonP>
-                    </PricesSection>
-
-                    <Requirements pocket={'pocket'} />
                 </PricesDiv>
 
                 <AllRedDropDowns>
