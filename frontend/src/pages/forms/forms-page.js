@@ -39,6 +39,7 @@ export default function Forms(){
     }, [])
 
     return (
+		/* Old forms page with broken submit button
         <CommonStartDiv>
             <CommonH2> 
                 new client form 
@@ -73,5 +74,27 @@ export default function Forms(){
                     </FormPagePdfBtn>
             </FormPageInfoSection>
         </CommonStartDiv>
+		*/
+		// Temporary forms page with only manual pdf form
+		<CommonStartDiv>
+            <CommonH2> 
+                new client form 
+            </CommonH2>
+
+            <FormPageInfoSection>
+                <FormPageRedBox>
+                    <p> 
+                        We require all owners to fill out a new client form to insure that we have your contact information and all of your pets information. Please download a printable version by clicking the button below. 
+                        You are more than welcome to complete the form by hand and bring it in, or you may email it to us at 
+                        {<UnderlineLink href="mailto:thebiscuitgarden@gmail.com"> thebiscuitgarden@gmail.com.</UnderlineLink>}
+                    </p>
+                </FormPageRedBox>
+
+                <FormPagePdfBtn onClick={() => window.open(intakeForm)}> 
+                        New Owner Form PDF
+                    </FormPagePdfBtn>
+            </FormPageInfoSection>
+        </CommonStartDiv>
+
     )
 }
