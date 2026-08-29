@@ -11,11 +11,10 @@
 
 #credits h2 {
     font-size: 3rem;
-    padding-bottom: 10px;
 }
 #credits a:hover {
     cursor: pointer;
-    color: #ad0005;
+    color: purple;
 }
 
 #credits h1,
@@ -23,7 +22,7 @@
 #credits .images,
 #credits .icons {
     width: 100%;
-    margin-bottom: 2%;
+    margin-bottom: 1%;
 }
 
 #credits .icons img {

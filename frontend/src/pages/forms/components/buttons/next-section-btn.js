@@ -20,10 +20,12 @@ export default function NextPrevBtn(props){
         let valid = document.forms['new_owner_form'].reportValidity()
 
         let previousSection = async () => {
+            // await findSection(btnIndex, sectionId)
             setBtnIndex(btnIndex - 1)
         }
 
         let nextSection = async () => {
+            // await findSection(sectionHTML, formHTML, setFormHTML, btnIndex, sectionId)
             setBtnIndex(btnIndex + 1)
         }
 

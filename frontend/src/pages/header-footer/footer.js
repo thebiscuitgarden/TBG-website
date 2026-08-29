@@ -104,7 +104,7 @@ export default function Footer(){
                                     </p>
                                 </div>
                                 <div>
-                                    <a href="mailto:thebiscuitgarden@gmail.com" target="_blank" rel="noreferrer">
+                                    <a href="mailto:thebiscuitgarden@gmail.com">
                                         thebiscuitgarden@gmail.com
                                     </a>
                                 </div>

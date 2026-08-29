@@ -9,7 +9,7 @@ import { BannerDiv, BannerImg } from "../styles/banner";
 
 //Components: 
 import AccordianTitle from "./general-components/accordian-divs/accordian-titles";
-import Requirements from "./general-components/requirements";
+// import Requirements from "./general-components/requirements";
 
 //Images:
 import boardingBanner5 from '../images/boarding/boarding-slide-show-5.png'
