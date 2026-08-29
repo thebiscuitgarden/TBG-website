@@ -18,7 +18,6 @@ import { home_btns } from "./home-page-btns";
 import About from "../about/about";
 import { AboutInfoSection, QuoteAuthor, QuoteBody, QuoteHeader } from "../../styles/about";
 
-
 export default function Home(){
     return (
         <>
@@ -55,3 +54,28 @@ export default function Home(){
         </>
     )
 }
+
+/*
+import React, { useEffect, useState } from "react";
+import { Outlet, useLocation } from 'react-router-dom';
+
+export default function Home(){
+  const location = useLocation();
+  const [showSplash, setShowSplash] = useState(false);
+
+  useEffect(() => {
+    // Show splash only on initial visit (path === "/") and only once
+    if (!showSplash && location.pathname === '/') {
+      setShowSplash(true);
+    }
+  }, [location.pathname, showSplash]);
+
+  return (
+    <div className="App">
+      {showSplash && <div className="splash-screen"></div>}
+      <Outlet />
+    </div>
+  );
+}
+*/
+
