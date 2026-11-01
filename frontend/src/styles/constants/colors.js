@@ -6,7 +6,11 @@ const darkGrey = '#787878'
 const grey = '#DDDBDB'
 
 //Reds:
-const bright_red = '#ad0005'
+// const bright_red = '#ad0005'
+
+// Quick fix to change the red to green
+// const bright_red = '#c0dd66' // light green
+const bright_red = '#6aa84f' // dark green
 const muted_bright_red = '#C12025'
 const pastel_bright_red = '#CC353A'
 
