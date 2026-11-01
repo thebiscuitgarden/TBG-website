@@ -6,7 +6,7 @@ import InfoButton from "../general-components/info-buttons.js/info-button";
 import TeamCareers from "./team-careers";
 
 // Images:
-import graffiti2 from '../../images/grafitti-wall2.jpg'
+// import graffiti2 from '../../images/grafitti-wall2.jpg'
 
 // Styles:
 import { CommonH2 } from "../../styles/commonBDG";
@@ -33,9 +33,6 @@ export default function About(){
                     
                 </AboutInfoSection>
             </AboutStartDiv>
-            <GraffitiDiv style={{marginBottom: '-20px'}}>
-                <GraffitiImg src={graffiti2}/>
-            </GraffitiDiv>
         </>
     )
 }
