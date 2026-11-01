@@ -12,7 +12,8 @@ import { BannerDiv, BannerImg } from "../styles/banner";
 
 //Images: 
 import daycareBanner4 from '../images/daycare/daycare-slideshow-4.png'
-import collage from '../images/daycare/Daycare-messy-collage.jpg'
+// import collage from '../images/daycare/Daycare-messy-collage.jpg'
+import collage from '../images/new/daycare-collage.jpg'
 
 //FAQ Arrays:
 import { daycareFaqs, indvTitles } from "./faqs/faq-arrays";

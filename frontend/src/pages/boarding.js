@@ -13,7 +13,8 @@ import AccordianTitle from "./general-components/accordian-divs/accordian-titles
 
 //Images:
 import boardingBanner5 from '../images/boarding/boarding-slide-show-5.png'
-import collage from '../images/collage-boarding.jpg'
+// import collage from '../images/collage-boarding.jpg'
+import collage from '../images/new/boarding-collage.jpg'
 
 //FAQ Arrays: 
 import {

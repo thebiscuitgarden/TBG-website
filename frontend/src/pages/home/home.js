@@ -3,7 +3,7 @@ import React from "react";
 
 // Images:
 import homeBannerPic from '../../images/home/home-banner-pic.jpeg'
-import collage from '../../images/home-collage.jpg'
+import collage from '../../images/new/home-collage-1.jpg'
 
 // Components:
 import InfoButton from "../general-components/info-buttons.js/info-button";

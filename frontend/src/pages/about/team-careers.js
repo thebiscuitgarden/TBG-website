@@ -12,7 +12,8 @@ import { AllRedDropDowns, CollageImg } from "../../styles/common-styles";
 
 // Images:
 import manager from '../../images/about/manager.jpg';
-import teamCollage from '../../images/about/team/team-collage.jpg'
+// import teamCollage from '../../images/about/team/team-collage.jpg'
+import teamCollage from '../../images/new/home-collage-2.png'
 
 // Variables
 import { indvTitles, joinTeamDropdown } from "../faqs/faq-arrays";
