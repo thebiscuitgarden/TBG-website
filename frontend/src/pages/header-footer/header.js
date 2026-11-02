@@ -8,7 +8,7 @@ import { Squash as Hamburger } from 'hamburger-react'
 import logo from "../../images/logo/logo192.png";
 
 //Header Styles:
-import { LogoContainer, Logo, HamburgerDiv, MobileNav, MobileNavBar, Nav, Navbar, StyledHeader } from '../../styles/header'
+import { LogoContainer, Logo, HamburgerDiv, MobileNav, MobileNavBar, Nav, Navbar, StyledHeader, SubHeader } from '../../styles/header'
 
 //Components
 import NavItem from "./NavItem";

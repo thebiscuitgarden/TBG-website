@@ -31,6 +31,34 @@ export const StyledHeader = styled.header`
 
 
 `
+
+export const SubHeader = styled.section`
+    position: sticky;
+    top: 0;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    background-color: #6aa84f;
+    z-index: 499;
+
+    @media ${xxl} and ${tabletXL}{
+        height: ${props => props.open ? '125px' : '100px'}
+    }
+
+    @media ${xl}{
+        height: 120px;
+    }
+
+    @media ${tablet}{
+        height: ${props => props.open ? '125px' : '100px'};
+    }
+
+    @media ${mobileXL}{
+        height: ${props => props.open ? '100px' : '50px'};
+    }
+
+`
+
 export const LogoContainer = styled.div`
     width: 270px;
     

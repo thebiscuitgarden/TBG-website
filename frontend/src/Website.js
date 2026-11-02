@@ -6,6 +6,7 @@ import './styles/website.css';
 //components
 import Footer from './pages/header-footer/footer';
 import Header from './pages/header-footer/header';
+import SubHeader from './pages/header-footer/subHeader';
 import ScrollToTop from './scrollToTop';
 /*
 */
@@ -34,6 +35,7 @@ function Website() {
   return (
     <div className="App">
       <Header />
+      <SubHeader />
         <ScrollToTop />
         <Outlet />
       <Footer />
