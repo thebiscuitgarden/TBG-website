@@ -18,14 +18,17 @@ import { home_btns } from "./home-page-btns";
 import About from "../about/about";
 import { AboutInfoSection, QuoteAuthor, QuoteBody, QuoteHeader } from "../../styles/about";
 
-export default function Home(){
-    return (
-        <>
+/*
             <BannerDiv>
                 <BannerImg
                     src={homeBannerPic}
                 />
             </BannerDiv>
+ */
+
+export default function Home(){
+    return (
+        <>
             <CommonStartDiv>
                 <InfoButton array={home_btns}/>
 

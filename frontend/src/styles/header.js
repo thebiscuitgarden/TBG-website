@@ -44,7 +44,8 @@ export const Logo = styled.img`
     left: 0;
     display: inherit;
     width: 270px;
-    bottom: -125px;
+    /* bottom: -125px; */
+    bottom: -75px;
 
     @media ${tablet}{
         width: 200px;
