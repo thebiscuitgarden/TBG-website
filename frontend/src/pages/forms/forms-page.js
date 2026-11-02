@@ -62,7 +62,7 @@ export default function Forms(){
                     <p> 
                         We require all owners to fill out a new client form to insure that we have your contact information and all of your pets information. Please download a printable version by clicking the button below. 
                         You are more than welcome to complete the form by hand and bring it in, or you may email it to us at 
-                        {<UnderlineLink href="mailto:thebiscuitgarden@gmail.com"> thebiscuitgarden@gmail.com.</UnderlineLink>}
+                        {<UnderlineLink href="mailto:thebiscuitgarden@gmail.com">thebiscuitgarden@gmail.com.</UnderlineLink>}
                     </p>
                 </FormPageRedBox>
 

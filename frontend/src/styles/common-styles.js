@@ -37,7 +37,6 @@ margin: 10px 0;
 export const RedBoxWithShadow = styled.div`
 display: flex;
 align-items: center;
-height: 20rem;
 width: 30rem;
 background-color: ${bright_red};
 border: 1px solid ${bright_red};

@@ -10,12 +10,12 @@ width: 50%;
 export const FormPageRedBox = styled(RedBoxWithShadow)`
 flex-wrap: wrap;
 width: 100%;
-padding: 3%;
-margin: 0 10px;
+padding: 0%;
+margin: 0px 10px;
 
 p, a {
     color: white;
-    margin: 1%;
+    margin: 2%;
 }
 `
 
