@@ -18,16 +18,17 @@ import collage from '../images/new/daycare-collage.jpg'
 //FAQ Arrays:
 import { daycareFaqs, indvTitles } from "./faqs/faq-arrays";
 
-
-
-export default function Daycare(){
-    return(
-        <>
+/*
             <BannerDiv>
                 <BannerImg
                     src={daycareBanner4}
                 />
             </BannerDiv>
+*/
+
+export default function Daycare(){
+    return(
+        <>
             <CommonStartDiv>
                 <CommonH1> 
                     Doggie Daycare

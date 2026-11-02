@@ -21,14 +21,17 @@ import groomingBanner1 from '../images/grooming/grooming-white-tan-dog.jpg'
 //FAQ Arrays:
 import { groomingFaqs, indvTitles } from "./faqs/faq-arrays";
 
-export default function Grooming(){
-    return(
-        <>
+/*
             <BannerDiv>
                 <BannerImg
                     src={groomingBanner1}
                 />
             </BannerDiv>
+*/
+
+export default function Grooming(){
+    return(
+        <>
             <CommonStartDiv>
                 <CommonH1> 
                     Grooming

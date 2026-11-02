@@ -22,15 +22,17 @@ import {
     boardingFaqs,
 } from './faqs/faq-arrays'
 
-
-export default function Boarding(){
-    return(
-        <>
+/*
             <BannerDiv>
                 <BannerImg
                     src={boardingBanner5}
                 />
             </BannerDiv>
+*/
+
+export default function Boarding(){
+    return(
+        <>
             <CommonStartDiv>
                 <CommonH1> 
                     Boarding at Our Facility
