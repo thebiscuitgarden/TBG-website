@@ -8,9 +8,10 @@ const grey = '#DDDBDB'
 //Reds:
 // const bright_red = '#ad0005'
 
-// Quick fix to change the red to green
+// Quick fix to change the red color
 // const bright_red = '#c0dd66' // light green
-const bright_red = '#6aa84f' // dark green
+// const bright_red = '#6aa84f' // dark green
+const bright_red = '#1651b9' // dark blue
 const muted_bright_red = '#C12025'
 const pastel_bright_red = '#CC353A'
 
