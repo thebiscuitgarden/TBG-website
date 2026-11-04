@@ -45,7 +45,7 @@ export default function Boarding(){
                     <br/>
                     <CommonP>
                     Your pet will enjoy spacious accommodations, fluffy bedding, play time, potty
-                    breaks, meals, water play (weather permitting) and constant interaction with staff during their stay. All activities are included in the boarding rate.
+                    breaks, meals and constant interaction with staff during their stay. All activities are included in the boarding rate.
                     </CommonP>
                 </CommonInfoSection>
 

@@ -36,7 +36,7 @@ export default function Daycare(){
 
                 <CommonInfoSection>
                     <CommonP>
-                    Daycare is the perfect way for your pet to get extra exercise, socialize with new friends, both human and canine, and to introduce them to the facility prior to boarding. Your pet will get hours and hours of play time in small, supervised play groups in our outside and inside play areas. Groups are based on size, temperament and play style. Lunch time naps offer a well deserved rest to keep everyone balanced and happy.
+                    Daycare is the perfect way for your pet to get extra exercise, socialize with new friends, both human and canine, and to introduce them to the facility prior to boarding. Your pet will get hours and hours of play time in small, supervised play groups in our play areas. Groups are based on size, temperament and play style. Lunch time naps offer a well deserved rest to keep everyone balanced and happy.
                     </CommonP>
                 </CommonInfoSection>
 
