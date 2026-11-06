@@ -15,7 +15,7 @@ export default function Forms(){
     let navigate = useNavigate();
 
     return (
-		/* Old forms page with broken submit button
+		/* Old forms page with broken submit button */
         <CommonStartDiv>
             <CommonH2> 
                 new client form 
@@ -50,8 +50,9 @@ export default function Forms(){
                     </FormPagePdfBtn>
             </FormPageInfoSection>
         </CommonStartDiv>
+		/*
 		*/
-		// Temporary forms page with only manual pdf form
+		/* Temporary forms page with only manual pdf form
 		<CommonStartDiv>
             <CommonH2> 
                 new client form 
@@ -71,6 +72,7 @@ export default function Forms(){
                     </FormPagePdfBtn>
             </FormPageInfoSection>
         </CommonStartDiv>
+		*/
 
     )
 }
