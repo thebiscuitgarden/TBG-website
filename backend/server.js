@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const cors = require('cors');
 const axios = require('axios');
 const multer  = require('multer')
+const nodemailer = require ('nodemailer');
 
 dotenv.config()
 
@@ -43,6 +44,28 @@ app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
 
     let base64pdf = req.file.buffer.toString('base64')
 
+	var transport = nodemailer.createTransport({
+		host: "sandbox.smtp.mailtrap.io",
+		port: 2525,
+		auth: {
+			user: "2bb13247f1a687",
+			pass: process.env.EMAIL_TEST_PSWD
+		}
+	});
+
+	transport.sendMail({
+		from: "Private Person <from@example.com>",
+		to: "A Test User <to@example.com>",
+		subject: "Hello from Mailtrap",
+		text: "This is a test e-mail message."
+	}, (error, info) => {
+		if (error) {
+			return console.log(error);
+		}
+		console.log("Message sent: %s", info.messageId);
+	});
+
+	/*
     //For email service:
     const data = {
         from: {
@@ -87,6 +110,7 @@ app.post(`/api/email-form`, upload.single('file'), async (req, res) => {
                 error: err.response.data
             })
         })
+	*/
 })
 
 app.listen(port, () => {
